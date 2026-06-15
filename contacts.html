@@ -16,7 +16,7 @@
   <meta property="og:title" content="Contacts Page | Terra Security Services" />
 
 
-  <link href="http://res2.weblium.site/" rel="preconnect" crossorigin />
+  <!-- <link href="http://res2.weblium.site/" rel="preconnect" crossorigin /> -->
 
   <link rel="shortcut icon" type="image/png"
     href="ChatGPT Image Jun 4, 2026, 04_57_21 PM.png" sizes="16x16">
@@ -12366,31 +12366,31 @@
                                 the form below, describe your needs and special conditions, and we will call you back
                                 with an individual offer.</span></span></span></p>
                         <div data-app="contact-form" class="">
-  <form class="w-form ui-contact-form ui-contact-form--dark" id="request-form">
+  <form class="w-form ui-contact-form ui-contact-form--dark" id="contactForm">
  
     <div class="w-form__field">
-      <input type="text" id="5ae06ffe84fc100025831e47-contactForm_name"
+      <input type="text" name="name"
         class="w-form__input ui-input ui-input--size-md"
         placeholder="Enter your full name*" required=""
         style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:rgb(23,36,70);--w-get-input-background-color:rgb(23,36,70)" value="" />
     </div>
  
     <div class="w-form__field">
-      <input type="tel" id="5ae06ffe84fc100025831e47-contactForm_phoneNumber"
+      <input type="tel" name="phone"
         class="w-form__input ui-input ui-input--size-md"
         placeholder="Enter your phone number*" required=""
         style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:rgb(23,36,70);--w-get-input-background-color:rgb(23,36,70)" value="" />
     </div>
  
     <div class="w-form__field">
-      <input type="email" id="5ae06ffe84fc100025831e47-contactForm_email"
+      <input type="email" name="email"
         class="w-form__input ui-input ui-input--size-md"
         placeholder="Enter your e-mail*" required=""
         style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:rgb(23,36,70);--w-get-input-background-color:rgb(23,36,70)" value="" />
     </div>
  
     <div class="w-form__field">
-      <input type="text" id="5ae06ffe84fc100025831e47-ff5e85c3-6919-403e-8381-eb17a737a411"
+      <input type="text" name="message"
         class="w-form__input ui-input ui-input--size-md"
         placeholder="Type your message"
         style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:rgb(23,36,70);--w-get-input-background-color:rgb(23,36,70)" value="" />
@@ -12400,9 +12400,81 @@
  
     <button type="submit" class="w-form-button w-form__button ui-button ui-button--primary-dark ui-button--size-md w-form-button--font-weight-bold">
       <span class="w-form-button__border ui-button__border"></span>
-      <span class="w-form-button__content"><span class="w-form-button__inner"><span class="w-form-button__text">Send a Request</span></span></span>
+      <span class="w-form-button__content">
+        <span class="w-form-button__inner">
+          <img class="loader" src="https://i.gifer.com/ZZ5H.gif" alt="Loading" style="
+                width: 16px;
+                height: 16px;
+                margin-right: 8px;
+                display: none;
+            " />
+          <span class="w-form-button__text">Send a Request</span>
+        </span>
+      </span>
     </button>
+
+    <div id="successMessage" style="
+        display: none;
+        align-items: center;
+        background-color: #ecfdf5;
+        border-left: 5px solid #10b981;
+        border-radius: 6px;
+        padding: 16px 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        max-width: 450px;
+        margin: 20px auto;
+        text-align: left;
+    ">
+        <div style="margin-right: 14px; display: flex; align-items: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#10b981"/>
+                <path d="M8.5 12.5L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <div style="flex-grow: 1;">
+            <h4 style="margin: 0 0 4px 0; color: #065f46; font-size: 16px; font-weight: 600;">
+                Success!
+            </h4>
+            <p class="content" style="margin: 0; color: #047857; font-size: 14px; line-height: 1.4;">
+                
+            </p>
+        </div>
+    </div>
+
+    <div id="failMessage" style="
+        display: none;
+        align-items: center;
+        background-color: #fef2f2;
+        border-left: 5px solid #ef4444;
+        border-radius: 6px;
+        padding: 16px 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        max-width: 450px;
+        margin: 20px auto;
+        text-align: left;
+    ">
+        <div style="margin-right: 14px; display: flex; align-items: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#ef4444"/>
+                <path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <div style="flex-grow: 1;">
+            <h4 style="margin: 0 0 4px 0; color: #991b1b; font-size: 16px; font-weight: 600;">
+                Action Failed
+            </h4>
+            <p class="content" style="margin: 0; color: #b91c1c; font-size: 14px; line-height: 1.4;">
+                Something went wrong. Please try again.
+            </p>
+        </div>
+    </div>
   </form>
+
+
  
   <!-- Success Message -->
   <div style="display:none" data-role="success-message">
@@ -12824,66 +12896,65 @@
 
 
 
+<script src="/assets/jquery-4.0.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  var form = document.getElementById('request-form');
-  if (!form) return;
- 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
- 
-    var name    = form.querySelector('[id$="contactForm_name"]').value.trim();
-    var phone   = form.querySelector('[id$="contactForm_phoneNumber"]').value.trim();
-    var email   = form.querySelector('[id$="contactForm_email"]').value.trim();
-    var message = form.querySelector('[id$="ff5e85c3-6919-403e-8381-eb17a737a411"]').value.trim();
- 
-    if (!name || !phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showMessage('error');
-      return;
-    }
- 
-    var subject = encodeURIComponent('New Request from ' + name);
-    var body = encodeURIComponent(
-      'New request received from the website.\n' +
-      '─────────────────────────────\n' +
-      'Name:    ' + name  + '\n' +
-      'Phone:   ' + phone + '\n' +
-      'Email:   ' + email + '\n' +
-      'Message: ' + (message || 'No message provided') + '\n' +
-      '─────────────────────────────'
-    );
- 
-    window.location.href =
-      'mailto:contact.terraventures@gmail.com' +
-      '?subject=' + subject +
-      '&body='    + body;
- 
-    showMessage('success');
-  });
- 
-  function showMessage(type) {
-    var wrap = form.closest('[data-app="contact-form"]');
-    var msg  = wrap ? wrap.querySelector('[data-role="' + type + '-message"]') : null;
-    if (!msg) return;
-    msg.style.display = 'block';
-    msg.querySelectorAll('[data-role="close"]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        msg.style.display = 'none';
-        if (type === 'success') form.reset();
+    $('#contactForm').submit(function(event) {
+      // 1. Prevent the default browser form submission
+      event.preventDefault(); 
+
+      var loader = $(this).find(".loader");
+
+      loader.show();
+
+      // 2. Convert form data into a standard JavaScript object
+      var formData = {};
+      var formArray = $(this).serializeArray();
+      
+      $.each(formArray, function(index, field) {
+          formData[field.name] = field.value;
       });
-    });
-  }
-});
+
+      formData['service_name'] = 'contact_us';
+
+      // 3. Send the JSON payload via HTTP POST
+      $.ajax({
+          url: 'admin/api.php',
+          type: 'POST',
+          contentType: 'application/json; charset=utf-8', 
+          data: JSON.stringify(formData), 
+          dataType: 'json', 
+          success: function(response) {
+              response['msg'] = response['msg'] || "Email Sent";
+
+              $("#successMessage").find(".content").html(response['msg']);
+              $("#successMessage").css("display", "flex");
+              loader.hide();
+
+              $('#contactForm')[0].reset();
+          },
+          error: function(xhr, status, error) {
+              var msg = "Unknown Error";
+              if (typeof xhr.responseJSON == "object")              
+              {
+                  msg = xhr.responseJSON['msg'] || "Unknown Error";
+              }
+              
+              $("#failMessage").find(".content").html(msg);
+              $("#failMessage").css("display", "flex");
+              loader.hide();
+          }
+      });
+  });
 </script>
 
 
-  <noscript>
+  <!-- <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W927QWM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
   <script>window.API_URL = "https://api.weblium.com"</script>
   <script defer src="editor/static/site-stat.js"></script>
-  <script>window.__LANG__ = "en"</script>
+  <script>window.__LANG__ = "en"</script> -->
 </body>
 
 

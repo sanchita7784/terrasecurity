@@ -12874,24 +12874,24 @@
     </div>
  
     <div data-app="contact-form" class="">
-      <form class="w-form ui-contact-form ui-contact-form--dark" id="enquiry-form">
+      <form class="w-form ui-contact-form ui-contact-form--dark" id="careerForm">
  
         <div class="w-form__field">
-          <input type="text" id="5d1098d83690b00024f5c4cd-contactForm_name"
+          <input type="text" name="name"
             class="w-form__input ui-input ui-input--size-md"
             placeholder="Enter your full name*" required=""
             style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:#172446;--w-get-input-background-color:#172446" value="" />
         </div>
  
         <div class="w-form__field">
-          <input type="tel" id="5d1098d83690b00024f5c4cd-contactForm_phoneNumber"
+          <input type="tel" name="phone"
             class="w-form__input ui-input ui-input--size-md"
             placeholder="Enter your phone number*" required=""
             style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:#172446;--w-get-input-background-color:#172446" value="" />
         </div>
  
         <div class="w-form__field">
-          <input type="email" id="5d1098d83690b00024f5c4cd-contactForm_email"
+          <input type="email" name="email"
             class="w-form__input ui-input ui-input--size-md"
             placeholder="Enter your e-mail*" required=""
             style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;border-color:#ff2739;background-color:#172446;--w-get-input-background-color:#172446" value="" />
@@ -12899,7 +12899,7 @@
  
         <div class="w-form__field">
           <div class="w-relative-wrapper">
-            <select id="5d1098d83690b00024f5c4cd-91a37083-f1da-48ce-887f-63ad5d4bc5ac"
+            <select name="role"
               class="w-form__input w-form__input--select ui-input ui-input--size-md"
               style="border-bottom-width:2px;border-bottom-style:solid;border-radius:0px;background-color:#172446;border-color:#ff2739;color:rgba(255,255,255,0.54)">
               <option selected="" disabled="" hidden="" value="">Select Role Type</option>
@@ -12920,29 +12920,169 @@
             <a href="mailto:contact.terraventures@gmail.com" style="color:#ff2739;text-decoration:none;">contact.terraventures@gmail.com</a>
           </p>
         </div>
- <div class="career-upload-field">
-    <label for="resumeUpload" class="career-upload-label">
-        Upload Resume / Supporting Documents
-    </label>
+      <div class="career-upload-field">
+          <label for="resumeUpload" class="career-upload-label">
+              Upload Resume / Supporting Documents
+          </label>
 
-    <input
-        type="file"
-        id="resumeUpload"
-        name="resume"
-        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-        class="career-upload-input"
-    />
+          <input
+              type="file"
+              id="cvFile"
+              name="resume"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              class="career-upload-input"
+          />
 
-    <small class="career-upload-note">
-        Accepted formats: PDF, DOC, DOCX, JPG, PNG (Max 10MB)
-    </small>
-</div>
+          <small class="career-upload-note">
+              Accepted formats: PDF, DOC, DOCX, JPG, PNG (Max 10MB)
+          </small>
+
+          <span id="uploadStatus"></span>
+      </div>
         <input type="text" autocomplete="off" class="honey-field" value="" />
  
         <button type="submit" class="w-form-button w-form__button ui-button ui-button--primary-dark ui-button--size-md w-form-button--font-weight-bold">
           <span class="w-form-button__border ui-button__border"></span>
-          <span class="w-form-button__content"><span class="w-form-button__inner"><span class="w-form-button__text">Send Enquiry</span></span></span>
+          <span class="w-form-button__content">
+            <span class="w-form-button__inner">
+              <img
+                  class="loader"
+                  src="https://i.gifer.com/ZZ5H.gif"
+                  alt="Loading"
+                  style="width: 16px; height: 16px; display: none"
+                />
+              <span class="w-form-button__text">Send Enquiry</span>
+            </span>
+          </span>
         </button>
+
+        <div
+          id="successMessage"
+          style="
+            display: none;
+            align-items: center;
+            background-color: #ecfdf5;
+            border-left: 5px solid #10b981;
+            border-radius: 6px;
+            padding: 16px 20px;
+            box-shadow:
+              0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            font-family:
+              -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+              Roboto, Helvetica, Arial, sans-serif;
+            max-width: 450px;
+            margin: 20px auto;
+          "
+        >
+          <div
+            style="margin-right: 14px; display: flex; align-items: center"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="10" fill="#10b981" />
+              <path
+                d="M8.5 12.5L11 15L16 9"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div style="flex-grow: 1">
+            <h4
+              style="
+                margin: 0 0 4px 0;
+                color: #065f46;
+                font-size: 16px;
+                font-weight: 600;
+              "
+            >
+              Success!
+            </h4>
+            <p
+              class="content"
+              style="
+                margin: 0;
+                color: #047857;
+                font-size: 14px;
+                line-height: 1.4;
+              "
+            ></p>
+          </div>
+        </div>
+
+        <div
+          id="failMessage"
+          style="
+            display: none;
+            align-items: center;
+            background-color: #fef2f2;
+            border-left: 5px solid #ef4444;
+            border-radius: 6px;
+            padding: 16px 20px;
+            box-shadow:
+              0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            font-family:
+              -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+              Roboto, Helvetica, Arial, sans-serif;
+            max-width: 450px;
+            margin: 20px auto;
+          "
+        >
+          <div
+            style="margin-right: 14px; display: flex; align-items: center"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="10" fill="#ef4444" />
+              <path
+                d="M15 9L9 15M9 9L15 15"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div style="flex-grow: 1">
+            <h4
+              style="
+                margin: 0 0 4px 0;
+                color: #991b1b;
+                font-size: 16px;
+                font-weight: 600;
+              "
+            >
+              Action Failed
+            </h4>
+            <p
+              class="content"
+              style="
+                margin: 0;
+                color: #b91c1c;
+                font-size: 14px;
+                line-height: 1.4;
+              "
+            >
+              Something went wrong. Please try again.
+            </p>
+          </div>
+        </div>
       </form>
  
       <!-- Success Message -->
@@ -13293,65 +13433,122 @@
 
 
 
-  <noscript>
+  <!-- <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W927QWM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
   <script>window.API_URL = "https://api.weblium.com"</script>
   <script defer src="editor/static/site-stat.js"></script>
-  <script>window.__LANG__ = "en"</script>
+  <script>window.__LANG__ = "en"</script> -->
 </body>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var form = document.getElementById('enquiry-form');
-  if (!form) return;
- 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
- 
-    var name    = form.querySelector('[id$="contactForm_name"]').value.trim();
-    var phone   = form.querySelector('[id$="contactForm_phoneNumber"]').value.trim();
-    var email   = form.querySelector('[id$="contactForm_email"]').value.trim();
-    var service = form.querySelector('select').value;
- 
-    if (!name || !phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showMessage('error');
-      return;
-    }
- 
-    var subject = encodeURIComponent('New Security Enquiry — ' + (service || 'General'));
-    var body = encodeURIComponent(
-      'New enquiry received from the website.\n' +
-      '─────────────────────────────\n' +
-      'Name:         ' + name + '\n' +
-      'Phone:        ' + phone + '\n' +
-      'Email:        ' + email + '\n' +
-      'Service Type: ' + (service || 'Not selected') + '\n' +
-      '─────────────────────────────'
-    );
- 
-    window.location.href =
-      'mailto:contact.terraventures@gmail.com' +
-      '?subject=' + subject +
-      '&body='    + body;
- 
-    showMessage('success');
-  });
- 
-  function showMessage(type) {
-    var wrap = form.closest('[data-app="contact-form"]');
-    var msg  = wrap ? wrap.querySelector('[data-role="' + type + '-message"]') : null;
-    if (!msg) return;
-    msg.style.display = 'block';
-    msg.querySelectorAll('[data-role="close"]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        msg.style.display = 'none';
-        if (type === 'success') form.reset();
+
+<script src="/assets/jquery-4.0.0.min.js"></script>
+
+    <script>
+      var cv_file_path = null;
+
+        $(document).ready(function () {
+          $("#cvFile").on("change", function () {
+            // Grab the native file object
+            var fileData = this.files[0];
+
+            // Ensure a file was actually selected (handles cancel button clicks)
+            if (!fileData) {
+              return;
+            }
+
+            // Create a FormData object to hold our file binary
+            var formData = new FormData();
+            formData.append("file", fileData);
+
+            // Optional: Show a loading state in your status div
+            $("#uploadStatus").html(
+              '<span style="color: #2563eb;">Uploading...</span>',
+            );
+
+            $.ajax({
+              url: "admin/file_post.php", // Your backend processing file
+              type: "POST",
+              data: formData,
+              contentType: false, // Required: Tells jQuery not to set Content-Type header
+              processData: false, // Required: Tells jQuery not to convert the data into a query string
+              success: function (response) {
+                // Handle a successful upload
+                $("#uploadStatus").html(
+                  '<div style="color: #065f46; background-color: #ecfdf5; padding: 10px; border-radius: 4px;">' +
+                    "✔ File uploaded successfully!" +
+                    "</div>",
+                );
+
+                cv_file_path = response["file"]["path"] + response["file"]["filename"];
+                console.log(cv_file_path);
+              },
+              error: function (xhr, status, error) {
+                // Handle errors
+                $("#uploadStatus").html(
+                  '<div style="color: #991b1b; background-color: #fef2f2; padding: 10px; border-radius: 4px;">' +
+                    "❌ Upload failed. Please try again." +
+                    "</div>",
+                );
+                console.error(error);
+              },
+            });
+          });
+        });
+
+      $("#careerForm").submit(function (event) {
+        // 1. Prevent the default browser form submission
+        event.preventDefault();
+
+        if (!cv_file_path)
+        {
+            alert("Please upload CV");
+            return false;
+        }
+
+        var loader = $(this).find(".loader");
+
+        loader.show();
+
+        // 2. Convert form data into a standard JavaScript object
+        var formData = {};
+        var formArray = $(this).serializeArray();
+
+        $.each(formArray, function (index, field) {
+          formData[field.name] = field.value;
+        });
+
+        formData["service_name"] = "career";
+        formData["cv"] = cv_file_path;
+        // 3. Send the JSON payload via HTTP POST
+        $.ajax({
+          url: "admin/api.php",
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify(formData),
+          dataType: "json",
+          success: function (response) {
+            response["msg"] = response["msg"] || "Saved";
+
+            $("#successMessage").find(".content").html(response["msg"]);
+            $("#successMessage").css("display", "flex");
+            loader.hide();
+
+            $("#careerForm")[0].reset();
+          },
+          error: function (xhr, status, error) {
+            var msg = "Unknown Error";
+            if (typeof xhr.responseJSON == "object") {
+              msg = xhr.responseJSON["msg"] || "Unknown Error";
+            }
+
+            $("#failMessage").find(".content").html(msg);
+            $("#failMessage").css("display", "flex");
+            loader.hide();
+          },
+        });
       });
-    });
-  }
-});
-</script>
+    </script>
 </html>
 
 
