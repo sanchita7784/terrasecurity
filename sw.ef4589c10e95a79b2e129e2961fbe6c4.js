@@ -1,7 +1,4 @@
-/* eslint no-var: off */
-/* eslint no-console: off */
-/* eslint no-redeclare: off */
-/* global fetch createImageBitmap self caches*/
+
 var hostReplacer = {}
 function checkReplacer() {
   return fetch("/.sw_/_host_/_replacer_?" + Date.now())
