@@ -9,6 +9,8 @@ class Menu
         $menu[] = Home::get();
 
         $menu[] = Location::get();
+        $menu[] = Employee::get();
+        $menu[] = Attendance::get();
 
         $menu[] = Career::get();  
 
@@ -217,6 +219,59 @@ class Location
             "title" => "Add",
             "r" => "location/save",
             "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+
+class Employee
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Employee",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "employee/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "employee/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+class Attendance
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Attendance",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "attendance/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Mark Attendance",
+            "r" => "attendance/mark",
+            "icon" => "fas fa-clock",
         ];
 
         return $links;

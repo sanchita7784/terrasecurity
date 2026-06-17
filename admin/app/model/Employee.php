@@ -7,23 +7,23 @@ require_once './app/model/States.php';
 require_once './app/model/City.php';
 require_once './app/model/Attendance.php';
 
-class Location extends BaseModel
-{    
+class Employee extends BaseModel
+{
     public Array $validations = [
-        'name' => ['required', 'unique'],        
+        'name' => ['required'],
+        'mobile' => ['required', 'unique'],
+        'address' => ['required'],
+        'state_id' => ['required'], 
+        'city_id' => ['required'], 
+        'doj' => ['required'], 
+    ];
+
+    public $date_fields = [
+        "doj" => "d-M-Y"
     ];
 
     public function beforeDelete($id)
     {
-        $userModel = new User();
-
-        $condition = new Condition("AND");
-        $condition->add("location_id", $id);
-        if ($userModel->findCount($condition) > 0)
-        {
-            return false;
-        }
-
         $userModel = new Attendance();
 
         $condition = new Condition("AND");
@@ -55,11 +55,11 @@ class Location extends BaseModel
         {
             foreach($rel_records as $rel_record)
             {
-                if ($record['state_id'] == $rel_record['id'])    
+                if ($record['state_id'] == $rel_record['id'])
                 {
                     $records[$k]['state_id'] = $rel_record;
                 }
-            }    
+            }
         }
     }
 
@@ -82,12 +82,12 @@ class Location extends BaseModel
         {
             foreach($rel_records as $rel_record)
             {
-                if ($record['city_id'] == $rel_record['id'])    
+                if ($record['city_id'] == $rel_record['id'])
                 {
                     $records[$k]['city_id'] = $rel_record;
                 }
-            }    
+            }
         }
     }
-    
+
 }

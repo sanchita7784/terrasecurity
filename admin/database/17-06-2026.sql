@@ -725,11 +725,14 @@ CREATE TABLE `employee_work_history` (
   CREATE TABLE `attendance` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `employee_id` INT UNSIGNED NOT NULL,
-  `in_time` DATETIME NOT NULL,
+  `in_time` DATETIME NULL,
   `out_time` DATETIME NULL,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`));
+
+  ALTER TABLE `attendance`  ADD COLUMN `location_id` INT NULL AFTER `employee_id`;
+
 
 
   CREATE TABLE `holiday` (
@@ -779,5 +782,4 @@ CREATE TABLE `salary` (
   PRIMARY KEY (`id`));
 
 
-
-
+ALTER TABLE `user`  ADD COLUMN `location_id` INT NULL AFTER `uuid`;

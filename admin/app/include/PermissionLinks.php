@@ -15,5 +15,13 @@ function permission_links()
         "location/summary" => "Location Summary",
         "location/save" => "Location Save",
         "location/delete" => "Location Delete",
+
+        "employee/summary" => "Employee Summary",
+        "employee/save" => "Employee Save",
+        "employee/delete" => "Employee Delete",
+
+        'attendance/summary' => "Attendance Summary",
+        'attendance/mark' => "Attendance Mark",
+        'attendance/edit' => "Attendance Edit",
     ];
 }

@@ -486,7 +486,7 @@ function download_start($file, $content_type, $delete_after_download = false)
     header('Expires: 0');
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
-    header('Content-Length: ' . filesize($file));
+    header('Content-Length: ' . @filesize($file));
     readfile($file);
     if ($delete_after_download) {
         unlink($file);

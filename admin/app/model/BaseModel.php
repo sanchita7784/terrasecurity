@@ -3,6 +3,7 @@ namespace App\Model;
 
 use App\Auth;
 use App\Cache;
+use DateUtility;
 use Exception;
 use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
@@ -16,6 +17,7 @@ class BaseModel
     public \Mysql $mysql;
     public Cache $cache;
     public Array $validationErrors = [], $validations = [], $tableFields = [], $children = [];
+    public $date_fields = [];
 
     public function __construct()
     {
@@ -78,6 +80,23 @@ class BaseModel
         $records =  $this->mysql->select($q);
 
         return $records[0]['C'];
+    }
+
+    public function dateFields(&$records)
+    {
+        if ($this->date_fields)
+        {
+            foreach($records as $k => $record)
+            {
+                foreach($this->date_fields as $field => $out_format)
+                {
+                    if (isset($records[$k][$field]) && $records[$k][$field])
+                    {
+                        $records[$k][$field] = DateUtility::getDate($record[$field], $out_format);
+                    }
+                }
+            }
+        }
     }
 
     public function findQuery(QuerySelect $qs)
@@ -278,6 +297,14 @@ class BaseModel
 
     public function beforeInsert(&$data)
     {
+        foreach($this->date_fields as $date_field => $out_format)
+        {
+            if (isset($data[$date_field]) && $data[$date_field])
+            {
+                $data[$date_field] = DateUtility::getDate($data[$date_field]);
+            }
+        }
+
         if (in_array('created_at', $this->tableFields))
         {
             $data['created_at'] = date("Y-m-d H:i:s");
@@ -294,6 +321,14 @@ class BaseModel
 
     public function beforeUpdate(&$data)
     {
+        foreach($this->date_fields as $date_field => $out_format)
+        {
+            if (isset($data[$date_field]) && $data[$date_field])
+            {
+                $data[$date_field] = DateUtility::getDate($data[$date_field]);
+            }
+        }
+
         if (in_array('updated_at', $this->tableFields))
         {
             $data['updated_at'] = date("Y-m-d H:i:s");
@@ -356,7 +391,7 @@ class BaseModel
                         case "required":
                             if (empty($value))
                             {
-                                $msg = str_function_name_to_human_text($field) . " is required";
+                                $msg = ucwords(str_function_name_to_human_text($field)) . " is required";
                                 $this->validationErrors[$field][] = $msg;
                             }
                             break;
@@ -406,11 +441,19 @@ class BaseModel
 
 
 
-    public function create_by(&$records)
+    public function created_by(&$records)
     {
         $user = new User();
 
         $user_id_list = array_unique(array_column($records, "created_by"));
+
+        foreach($user_id_list as $k => $v)
+        {
+            if (!$v)
+            {
+                unset($user_id_list[$k]);
+            }
+        }
 
         if (empty($user_id_list))
         {
@@ -428,6 +471,42 @@ class BaseModel
                 if ($record['created_by'] == $user_record['id'])    
                 {
                     $records[$k]['created_by'] = $user_record;
+                }
+            }    
+        }
+    }
+    
+
+    public function updated_by(&$records)
+    {
+        $user = new User();
+
+        $user_id_list = array_unique(array_column($records, "updated_by"));
+
+        foreach($user_id_list as $k => $v)
+        {
+            if (!$v)
+            {
+                unset($user_id_list[$k]);
+            }
+        }
+
+        if (empty($user_id_list))
+        {
+            return true;
+        }
+
+        $q = "SELECT id,name from " . $user->getTable() . " where id in (" . implode(",", $user_id_list) . ")";
+
+        $user_records = $user->mysql->select($q);
+
+        foreach($records as $k => $record)
+        {
+            foreach($user_records as $user_record)
+            {
+                if ($record['updated_by'] == $user_record['id'])    
+                {
+                    $records[$k]['updated_by'] = $user_record;
                 }
             }    
         }

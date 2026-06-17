@@ -5,15 +5,21 @@ use HardeepVicky\QueryBuilder\Condition;
 use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
 
-require_once './app/model/Location.php';
+require_once './app/model/Employee.php';
 
-$model = new App\Model\Location();
+$model = new App\Model\Employee();
 
 $condition = Condition::init("AND");
 
 if (isset($_GET['name']) && $_GET['name'])
 {
     $condition->add("name", '%' . $_GET['name'] .'%', "like");
+}
+
+
+if (isset($_GET['mobile']) && $_GET['mobile'])
+{
+    $condition->add("mobile", '%' . $_GET['mobile'] .'%', "like");
 }
 
 $total_count = $model->findCount($condition);
@@ -36,8 +42,6 @@ $records = $model->findQuery($qs);
 
 $model->created_by($records);
 $model->updated_by($records);
-$model->state_id($records);
-$model->city_id($records);
 
 
 require_once './app/resource/layout/main/head.php'
@@ -45,14 +49,17 @@ require_once './app/resource/layout/main/head.php'
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Location</h4>
+        <h4 class="card-title">Employee</h4>
         <p class="card-title-desc">
             <div class="d-flex justify-content-between">
                 <form style="width : 80%">
                     <input type="hidden" name="r" value="<?= $resource ?>" />
                     <div class="row">
                         <div class="col-md-3 col-xl-2">
-                            <input class="form-control" placeholder="Search" name="name" value="<?=  $_GET['name'] ?? "" ?>"/>
+                            <input class="form-control" placeholder="Name" name="name" value="<?=  $_GET['name'] ?? "" ?>"/>
+                        </div>
+                        <div class="col-md-3 col-xl-2">
+                            <input class="form-control" placeholder="Mobile" name="mobile" value="<?=  $_GET['mobile'] ?? "" ?>"/>
                         </div>
                         <div class="col-md-3 col-xl-2">
                             <button type="submit" class="btn btn-primary">Search</button>
@@ -76,9 +83,10 @@ require_once './app/resource/layout/main/head.php'
                         <th>
                             <?= sortable_link("name", "Name") ?>
                         </th>
+                        <th>Photo</th>
+                        <th>Mobile</th>
+                        <th>Salary</th>
                         <th>Address</th>
-                        <th>State</th>
-                        <th>City</th>
                         <th>Created</th>
                         <th>Created By</th>
                         <th>Updated By</th>
@@ -90,9 +98,14 @@ require_once './app/resource/layout/main/head.php'
                     <tr>
                         <th scope="row"><?= $record['id']  ?></th>
                         <td><?= $record['name']  ?></td>
+                        <td>
+                            <?php if (!empty($record['image'])): ?>
+                                <img src="<?= $record['image'] ?>" alt="Photo" style="max-width: 100px; max-height: 100px;">
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $record['mobile']  ?></td>
+                        <td><?= $record['salary']  ?></td>
                         <td><?= $record['address']  ?></td>
-                        <td><?= $record['state_id']['name']  ?></td>
-                        <td><?= $record['city_id']['city']  ?></td>
                         <td>
                             <?=  DateUtility::getDate($record['created_at'], DateUtility::DATETIME_OUT_FORMAT) ?>
                         </td>
@@ -100,16 +113,16 @@ require_once './app/resource/layout/main/head.php'
                             <?= $record['created_by']['name'] . "-" . $record['created_by']['id'] ?? "" ?>
                         </td>
                         <td>
-                            <?php if (isset($record['updated_by']['name'])): ?>
-                            <?= $record['updated_by']['name'] . "-" . $record['updated_by']['id'] ?? "" ?>
+                            <?php if (isset($record['updated_by'])): ?>
+                                <?= $record['updated_by']['name'] . "-" . $record['updated_by']['id'] ?? "" ?>
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-secondary" href="<?= url("location/save", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-secondary" href="<?= url("employee/save", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("location/delete", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("employee/delete", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

@@ -1,9 +1,7 @@
 <?php
 namespace App\Model;
 
-require_once './app/model/User.php';
-
-use Exception;
+use HardeepVicky\QueryBuilder\Condition;
 
 class Role extends BaseModel
 {    
@@ -11,5 +9,17 @@ class Role extends BaseModel
         'name' => ['required', 'unique'],
     ];
 
-    
+    public function beforeDelete($id)
+    {
+        $userModel = new User();
+
+        $condition = new Condition("AND");
+        $condition->add("role_id", $id);
+        if ($userModel->findCount($condition) > 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * file Uplaod Utility
  * 
@@ -14,190 +15,206 @@ require_once(dirname(__FILE__) . '/File.php');
 
 class FileUtility implements File
 {
-   public $maxSize, $ext, $path, $errors;
-   
-   public $filename, $extension, $file;
-   
-   // static variables
-   public static $FIRST = 1, $LAST = 2;   
-   
-   /**
-    * Constructor
-    * 
-    * @param int $maxSize
-    * @param array $extensions
-    * @param array $options
-    */
-   public function __construct($maxSize, $extensions = array()) 
-   {
-       $this->maxSize = $maxSize;
-       $this->ext = $extensions;
-       
-       foreach ($this->ext as $k => $ext)
-       {
-           $this->ext[$k] = strtolower(trim($ext));
-       }
-   }
-   
-   /**
-    * 
-    * upload a file to destination
-    * @param array $file
-    * @param string $dest_path
-    * @return boolean
-    */
-   public function uploadFile($file, $dest_path, $filename = "")
-   {
-       //validating file
-       if (!$this->validateFile($file))
-       {
-           return false;
-       }
-       
-       //creating folder
-       $dest_path = trim($dest_path, "/");
-       $dest_path .=  "/";
-       
-       self::createFolder($dest_path);
-       
-       $this->path = $dest_path;
-       
-       $temp = pathinfo($file["name"]);
+    public $maxSize, $ext, $path, $errors;
 
-       $this->filename = $temp['filename'];
-       $this->extension = strtolower(trim($temp['extension']));
-            
-       if ($filename)
-       {
-           $this->filename = $filename;
-           $this->file = $this->filename . "." . $this->extension;
-       }
-       else
-       {
-           $this->file = self::getAutoincreamentFileName($this->filename, $this->extension, $dest_path);
-       }
-       
-       return move_uploaded_file($file['tmp_name'], $this->path . $this->file);
-   }   
-   
-   /**
-    * validate the file
-    * @param string $file
-    * @return boolean
-    */
-   public function validateFile($file) 
-   {
-       $result = true;
-       
-       if ($file['size'] > $this->maxSize)
-       {
-           $this->errors[] = "File size must not exceeds " . round($this->maxSize / 1024) . " kb";
-           $result = false;
-       }
-       
-       $temp = pathinfo($file["name"]);
-       
-       $this->filename = $temp['filename'];
-       $this->extension = strtolower($temp['extension']);
-       
-       if (!empty($this->ext) && !in_array($this->extension, $this->ext))
-       {
-           $this->errors[] = "Invalid file Type : " . $this->extension;
-           $result = false;
-       }    
-       
-       return $result;
-   }
-   
-   /**
-    * return filename which which will be save 
-    * @param string $filename
-    * @param string $ext
-    * @param string $dest_path
-    * @return string
-    */
-   public static function getAutoincreamentFileName($filename, $ext, $dest_path, $sep = "_", $i = 0)
-   {
-       $temp_name =  $i > 0 ? $filename . $sep . $i : $filename;
-       
-       if (file_exists($dest_path . $temp_name . "." . $ext))
-       {
-           return self::getAutoincreamentFileName($filename, $ext, $dest_path, $sep, $i + 1);
-       }
-       else
-       {
-           return $temp_name . "." . $ext;
-       }
-   }
-   
-   public static function createFolder($path)
-   {
-       if (!file_exists($path))
-       {
-            if (!mkdir($path, 0777, TRUE))
-            {
+    public $filename, $extension, $file;
+
+    // static variables
+    public static $FIRST = 1, $LAST = 2;
+
+    /**
+     * Constructor
+     * 
+     * @param int $maxSize
+     * @param array $extensions
+     * @param array $options
+     */
+    public function __construct($maxSize, $extensions = array())
+    {
+        $this->maxSize = $maxSize;
+        $this->ext = $extensions;
+
+        foreach ($this->ext as $k => $ext) {
+            $this->ext[$k] = strtolower(trim($ext));
+        }
+    }
+
+    /**
+     * 
+     * upload a file to destination
+     * @param array $file
+     * @param string $dest_path
+     * @return boolean
+     */
+    public function uploadFile($file, $dest_path, $filename = "")
+    {
+        //validating file
+        if (!$this->validateFile($file)) {
+            return false;
+        }
+
+        //creating folder
+        $dest_path = trim($dest_path, "/");
+        $dest_path .=  "/";
+
+        self::createFolder($dest_path);
+
+        $this->path = $dest_path;
+
+        $temp = pathinfo($file["name"]);
+
+        $this->filename = $temp['filename'];
+        $this->extension = strtolower(trim($temp['extension']));
+
+        if ($filename) {
+            $this->filename = $filename;
+            $this->file = $this->filename . "." . $this->extension;
+        } else {
+            $this->file = self::getAutoincreamentFileName($this->filename, $this->extension, $dest_path);
+        }
+
+        return move_uploaded_file($file['tmp_name'], $this->path . $this->file);
+    }
+
+    /**
+     * validate the file
+     * @param string $file
+     * @return boolean
+     */
+    public function validateFile($file)
+    {
+        $result = true;
+
+        if ($file['size'] > $this->maxSize) {
+            $this->errors[] = "File size must not exceeds " . round($this->maxSize / 1024) . " kb";
+            $result = false;
+        }
+
+        $temp = pathinfo($file["name"]);
+
+        $this->filename = $temp['filename'];
+        $this->extension = strtolower($temp['extension']);
+
+        if (!empty($this->ext) && !in_array($this->extension, $this->ext)) {
+            $this->errors[] = "Invalid file Type : " . $this->extension;
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * return filename which which will be save 
+     * @param string $filename
+     * @param string $ext
+     * @param string $dest_path
+     * @return string
+     */
+    public static function getAutoincreamentFileName($filename, $ext, $dest_path, $sep = "_", $i = 0)
+    {
+        $temp_name =  $i > 0 ? $filename . $sep . $i : $filename;
+
+        if (file_exists($dest_path . $temp_name . "." . $ext)) {
+            return self::getAutoincreamentFileName($filename, $ext, $dest_path, $sep, $i + 1);
+        } else {
+            return $temp_name . "." . $ext;
+        }
+    }
+
+    public static function createFolder($path)
+    {
+        if (!file_exists($path)) {
+            if (!mkdir($path, 0777, TRUE)) {
                 return false;
             }
-       }
-       return true;
-   }
-   
-   public static function delete($path, $exts = array(), $recursive = false)
-   {
+        }
+        return true;
+    }
+
+    public static function delete($path, $exts = array(), $recursive = false)
+    {
         $path_files = self::getFileList($path, $exts, $recursive);
-        
-        foreach($path_files as $path => $files)
-        {
-            foreach($files as $file)
-            {
-                if (!unlink($path . $file))
-                {
+
+        foreach ($path_files as $path => $files) {
+            foreach ($files as $file) {
+                if (!unlink($path . $file)) {
                     return false;
                 }
             }
         }
-        
-        return true;
-   }
-   
-   public static function getFileList($path, $exts = array(), $recursive = false)
-   {
-       $files = scandir($path);
-       
-       foreach($files as $k => $file)
-       {
-            $f = $path . $file . "/";
-            
-            if ($file == '.' || $file == '..') 
-            {
-                unset($files[$k]);
-            }
-            else if ($recursive && is_dir($f))
-            {
-                $files[$f] = self::getFileList($f, $exts, $recursive);
-            }
-            else if (!empty($exts) && !in_array(pathinfo($file, PATHINFO_EXTENSION), $exts))
-            {
-                unset($files[$k]);
-            }
-       }    
-       
-       return $files;
-   }
 
-   public static function moveFile(String $file, String $dest_path)
-   {
+        return true;
+    }
+
+    public static function getFileList($path, $exts = array(), $recursive = false)
+    {
+        $files = scandir($path);
+
+        foreach ($files as $k => $file) {
+            $f = $path . $file . "/";
+
+            if ($file == '.' || $file == '..') {
+                unset($files[$k]);
+            } else if ($recursive && is_dir($f)) {
+                $files[$f] = self::getFileList($f, $exts, $recursive);
+            } else if (!empty($exts) && !in_array(pathinfo($file, PATHINFO_EXTENSION), $exts)) {
+                unset($files[$k]);
+            }
+        }
+
+        return $files;
+    }
+
+    public static function moveFile(String $file, String $dest_path)
+    {
         $filename = basename($file);
-        
+
         FileUtility::createFolder($dest_path);
 
         $new_file_name = self::getAutoincreamentFileName(pathinfo($filename, PATHINFO_FILENAME), pathinfo($filename, PATHINFO_EXTENSION), $dest_path);
 
-        if ( rename($file, $dest_path . "/" . $new_file_name) ) 
-        {
+        if (rename($file, $dest_path . "/" . $new_file_name)) {
             return $dest_path . "/" . $new_file_name;
         }
 
         return false;
-   }
+    }
+
+    public static function cleanFileName($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-_]/', '', $string); // Removes special chars.
+    }
+
+    public static function base64ToFile(String $base64, String $dest_path, String $file): String
+    {
+        $dest_path = trim($dest_path, "/");
+
+        self::createFolder($dest_path);
+
+        $filename = self::cleanFileName(pathinfo($file, PATHINFO_FILENAME));
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        $file = self::getAutoincreamentFileName($filename, $ext, $dest_path);
+
+        $file = $dest_path . "/" . $file;
+
+        $arr = explode(',', $base64);
+
+        if (count($arr) > 1) {
+            $base64 = $arr[1];
+        } else {
+            $base64 = $arr[0];
+        }
+
+        $ifp = fopen($file, 'wb');
+
+        fwrite($ifp, base64_decode($base64));
+
+        // clean up the file resource
+        fclose($ifp);
+
+        return $file;
+    }
 }

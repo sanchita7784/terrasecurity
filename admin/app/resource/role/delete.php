@@ -13,7 +13,7 @@ if (isset($_GET['id']))
     }
     else
     {
-        Session::writeFlash("fail", "Fail To delete");
+        Session::writeFlash("fail", "Fail To delete, Record has associated data");
     }
 }
 else

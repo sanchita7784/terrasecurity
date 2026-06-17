@@ -5,12 +5,13 @@ use App\Model\BaseModel;
 
 class Form
 {
-    private $db_data, $data;
+    public $db_data, $data;
     public function __construct(private BaseModel $model)
     {
         if (isset($_GET['id']))
         {
             $records = $this->model->find([], ["id" => $_GET['id']]);
+            $this->model->dateFields($records);
 
             $this->db_data = $records[0];            
         }
@@ -47,6 +48,12 @@ class Form
 
         $html .= ">";
         $html .= ucwords(str_function_name_to_human_text($field));
+
+        if (isset($options['required']) && $options['required'])
+        {
+            $html .= '<span class="mandatory">*</span>';
+        }
+
         $html .= "</label>";
 
         return $html;
@@ -120,6 +127,11 @@ class Form
 
         unset($options['list']);
 
+        if (isset($options['value']) && $options['value'])
+        {
+            $this->data[$field] = $options['value'];
+        }
+
         foreach($options as $attr => $value)
         {
             $html .= " " .$attr . '="' . $value . '" ';
@@ -150,7 +162,7 @@ class Form
         foreach($list as $key => $text)
         {
             $attr = "";
-            if (isset($this->data))
+            if (isset($this->data[$field]))
             {
                 if ($key == $this->data[$field])
                 {

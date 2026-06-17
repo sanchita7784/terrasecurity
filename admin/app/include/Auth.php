@@ -78,6 +78,11 @@ class Auth
         {
             redirect("login");
         }
+
+        $records = $this->userModel->find([], ["id" => $this->user['id']]);
+        $this->userModel->role($records);
+
+        $this->user = $records[0];
     }
 
     public function isPageAllowed()

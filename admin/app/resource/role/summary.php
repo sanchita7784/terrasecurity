@@ -36,7 +36,7 @@ $qs->setLimit($limit);
 
 $records = $model->findQuery($qs);
 
-$model->create_by($records);
+$model->created_by($records);
 
 
 require_once './app/resource/layout/main/head.php'
@@ -96,7 +96,7 @@ require_once './app/resource/layout/main/head.php'
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a class="btn btn-sm btn-danger delete-record" href="<?= url("role/delete", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?"  href="<?= url("role/delete", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
