@@ -12,5 +12,8 @@ function permission_links()
         "role/save" => "Role Save",
         "role/delete" => "Role Delete",
         "career/summary" => "Career Summary",
+        "location/summary" => "Location Summary",
+        "location/save" => "Location Save",
+        "location/delete" => "Location Delete",
     ];
 }

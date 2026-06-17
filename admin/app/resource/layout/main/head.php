@@ -17,22 +17,28 @@ require_once './app/include/Menu.php';
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         
-        <!-- plugin css -->
-        <link href="assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet"  type="text/css" href="assets/css/app.css"  />
+        <link rel="stylesheet"  type="text/css" href="assets/css/bootstrap.min.css"  />
+        <link rel="stylesheet"  type="text/css" href="assets/css/preloader.min.css"/>
+        <link rel="stylesheet"  type="text/css" href="assets/css/icons.min.css" />
 
-        <!-- preloader css -->
-        <link rel="stylesheet" href="assets/css/preloader.min.css" type="text/css" />
+        <link rel="stylesheet"  type="text/css" href="assets/libs/select2/select2.min.css" />
+        <link rel="stylesheet"  type="text/css" href="assets/libs/select2/select2-bootstrap.min.css"/>
+        <link rel="stylesheet"  type="text/css" href="assets/libs/sweetalert2/sweetalert2.min.css" />
+        <link rel="stylesheet"  type="text/css" href="assets/libs/Croppie-2.6.4/croppie.css" />
+        <link rel="stylesheet"  type="text/css" href="assets/libs/fancybox/dist/jquery.fancybox.min.css" />
 
-        <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css"  href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+        <link rel="stylesheet" type="text/css"  href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+        <link rel="stylesheet" type="text/css"  href="assets/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
 
-        <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet"  type="text/css" href="public/css/backend/default.css?<?= SCRIPT_VERSION ?>" />
+
 
         <script src="assets/libs/jquery/jquery.min.js"></script>
+
+        <link href="public/libs/loader/loader.css?<?= SCRIPT_VERSION ?>" rel="stylesheet" type="text/css" />
+        <script src="public/libs/loader/loader.js?<?= SCRIPT_VERSION ?>" type="text/javascript" ></script>
 
         <style>
             .error{

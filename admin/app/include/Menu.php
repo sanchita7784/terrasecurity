@@ -8,6 +8,8 @@ class Menu
 
         $menu[] = Home::get();
 
+        $menu[] = Location::get();
+
         $menu[] = Career::get();  
 
         $menu[] = System::get();
@@ -188,6 +190,33 @@ class Career
             "title" => "Summary",
             "r" => "career/summary",
             "icon" => "fas fa-th-list"
+        ];
+
+        return $links;
+    }
+}
+
+
+class Location
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Location",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "location/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "location/save",
+            "icon" => "fas fa-plus-circle",
         ];
 
         return $links;

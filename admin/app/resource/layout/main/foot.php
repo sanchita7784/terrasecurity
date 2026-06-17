@@ -7,7 +7,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
-                                <script>document.write(new Date().getFullYear())</script> © Payment Gateway.
+                                <script>document.write(new Date().getFullYear())</script> © Terra Ventures.
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-sm-end d-none d-sm-block">
@@ -20,11 +20,13 @@
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <tbody>
+                                    <?php if ($mysql->logs): ?>
                                     <?php foreach($mysql->logs as $q):?>
                                     <tr>
                                         <td><?= $q ?></td>
                                     </tr>
                                     <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -175,18 +177,43 @@
 
         <div class="rightbar-overlay"></div>
 
-        <script src="assets/libs/jquery/jquery.min.js"></script>
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/bootbox/5.5.3/bootbox.min.js"></script>
         <script src="assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>     
-        <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>   
-        <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
-
         <script src="assets/js/app.js"></script>
 
-        <script src="public/js/common.js?<?= SCRIPT_VERSION ?>"></script>
+        <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+        <script src="assets/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+        <script src="assets/libs/select2/select2.min.js"></script>
+        <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        <script src="assets/libs/Croppie-2.6.4/croppie.min.js"></script>
+        <script src="assets/libs/fancybox/dist/jquery.fancybox.min.js"></script>
+        <script src="assets/libs/jquery.form.min.js"></script>
+        <script src="assets/libs/Articulate-js/articulate.min.js"></script>
+        <script src="assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="assets/libs/jquery-validation/dist/additional-methods.min.js"></script>
+
+        <script src="public/js/common_funtions.js?<?= SCRIPT_VERSION ?>"></script>
+
+        <!--- Libs Made by developer -->
+        <script src="public/libs/constants.js?<?= SCRIPT_VERSION ?>" ></script>
+        <script src="public/libs/events.js?<?= SCRIPT_VERSION ?>" ></script>
+        <script src="public/libs/jquery-input-validate.js?<?= SCRIPT_VERSION ?>" ></script>
+        <script src="public/libs/date-util.js?<?= SCRIPT_VERSION ?>" ></script>
+        <script src="public/libs/jquery_extend.js?<?= SCRIPT_VERSION ?>" ></script>
+        <script src="public/libs/bootstrap_extend.js?<?= SCRIPT_VERSION ?>" ></script>
+        
+        <link href="public/libs/i-data-table/style.css?<?= SCRIPT_VERSION ?>" rel="stylesheet" type="text/css"  />
+        <script src="public/libs/i-data-table/script.js?<?= SCRIPT_VERSION ?>" ></script>
+
+        <!-- Project related JS -->
+        <script src="public/js/backend/backend.js?<?= SCRIPT_VERSION ?>"></script>     
     </body>
 
 </html>

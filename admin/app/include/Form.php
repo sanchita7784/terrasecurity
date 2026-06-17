@@ -120,10 +120,15 @@ class Form
 
         unset($options['list']);
 
-
         foreach($options as $attr => $value)
         {
             $html .= " " .$attr . '="' . $value . '" ';
+        }
+
+
+        if (isset($this->data[$field]) && $this->data[$field])
+        {
+            $html .= ' data-value="' . $this->data[$field] . '" ';
         }
 
         $html .= ">";

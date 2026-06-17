@@ -32,11 +32,11 @@ if (!in_array($resource, ['login', 'register', 'register_verify', 'forgot_passwo
     $auth = new Auth();
     $auth->check();
 
-    if (isset($_GET['r']) && !$auth->isPageAllowed())
-    {
-        require_once "./app/resource/401.php";
-        exit;
-    }
+    // if (isset($_GET['r']) && !$auth->isPageAllowed())
+    // {
+    //     require_once "./app/resource/401.php";
+    //     exit;
+    // }
 }
 
 require_once "./app/resource/$resource.php";
