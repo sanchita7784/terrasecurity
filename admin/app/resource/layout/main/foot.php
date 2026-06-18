@@ -177,7 +177,7 @@
 
         <div class="rightbar-overlay"></div>
 
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/bootbox/5.5.3/bootbox.min.js"></script>
         <script src="assets/libs/metismenu/metisMenu.min.js"></script>

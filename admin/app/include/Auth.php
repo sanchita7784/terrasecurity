@@ -17,7 +17,9 @@ class Auth
         "register_verify",
         "logout",
         "role/ajax_get_permission",
-        "change_password"
+        "change_password",
+        "city/get_list",
+        "attendance/emp_details"
     ];
 
     public $allowedPermissionForAdmin = [

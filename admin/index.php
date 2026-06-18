@@ -28,9 +28,11 @@ $resource = $_GET['r'] ?? 'dashboard';
 
 date_default_timezone_set('UTC');
 
-if (!in_array($resource, ['login', 'register', 'register_verify', 'forgot_password', 'new_password']))
+$auth = new Auth();
+
+if (!in_array($resource, $auth->defaultPageAllow))
 {
-    $auth = new Auth();
+    
     $auth->check();
 
     if (isset($_GET['r']) && !$auth->isPageAllowed())

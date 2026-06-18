@@ -5,7 +5,7 @@ use App\Form;
 require_once './app/model/BaseModel.php';
 require_once './app/model/Location.php';
 require_once './app/model/States.php';
-require_once './app/include/Form.php';
+require_once './app/model/Company.php';
 
 $model = new App\Model\Location();
 
@@ -15,10 +15,12 @@ $state = new App\Model\States();
 
 $state_list = $state->findListCache("id", "name");
 
+$company = new App\Model\Company();
+
+$company_list = $company->findListCache("id", "name");
+
 if (isset($_POST['form_data']))
 {
-    $_POST['form_data']['is_active'] = isset($_POST['form_data']['is_active']) ? 1 : 0;
-    
     if (isset($_GET['id']))
     {
         $model->id = $_GET['id'];
@@ -52,12 +54,20 @@ require_once './app/resource/layout/main/head.php'
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Role Form</h4>
+                <h4 class="card-title">Location Form</h4>
             </div>
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form method="post">                           
+                        <form method="post">   
+                            <div class="mb-3">
+                                <?= $form->label("company", ["class" => "form-label"]); ?>
+                                <?= $form->input("company_id", ["class" => "form-control select2", 
+                                    "type" => "select",
+                                    "list" => $company_list,
+                                    "empty" => true,
+                                ]); ?>
+                            </div>                        
                             <div class="mb-3">
                                 <?= $form->label("name", ["class" => "form-label"]); ?>
                                 <?= $form->input("name", ["class" => "form-control"]); ?>

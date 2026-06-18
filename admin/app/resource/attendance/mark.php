@@ -162,7 +162,7 @@ require_once './app/resource/layout/main/head.php'
             var v = $(this).val();
             if (v)
             {
-                var url = "index.php?r=attendance/emp_details&emp_id=" + v
+                var url = "index.php?r=attendance/emp_details&emp_id=" + v;
                 $.get(url, function(responseText){
                     ajaxHandleResponse(url, responseText, function (response) 
                     {
@@ -171,6 +171,12 @@ require_once './app/resource/layout/main/head.php'
                         {
                             $("#emp_photo").attr("src", data['employee']['image']);
                             $("#emp_photo").show();
+                        }
+
+                        if (typeof data['last_attendance'] != "undefined")
+                        {
+                            $("#last_attendance_info").html(data['last_attendance']);
+                            $("#last_attendance_info").show();
                         }
                     });                        
                 });

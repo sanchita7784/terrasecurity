@@ -66,8 +66,6 @@
 
             localStorage.setItem("light_dark_mode", mode);
         });
-
-        
     });
 
     var mode = localStorage.getItem("light_dark_mode");

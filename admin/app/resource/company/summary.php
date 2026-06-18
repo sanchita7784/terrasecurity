@@ -5,9 +5,9 @@ use HardeepVicky\QueryBuilder\Condition;
 use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
 
-require_once './app/model/Location.php';
+require_once './app/model/Company.php';
 
-$model = new App\Model\Location();
+$model = new App\Model\Company();
 
 $condition = Condition::init("AND");
 
@@ -36,9 +36,6 @@ $records = $model->findQuery($qs);
 
 $model->created_by($records);
 $model->updated_by($records);
-$model->company_id($records);
-$model->state_id($records);
-$model->city_id($records);
 
 
 require_once './app/resource/layout/main/head.php'
@@ -74,13 +71,12 @@ require_once './app/resource/layout/main/head.php'
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Company</th>
                         <th>
                             <?= sortable_link("name", "Name") ?>
                         </th>
-                        <th>Address</th>
-                        <th>State</th>
-                        <th>City</th>
+                        <th>GST No.</th>
+                        <th>Owner Name</th>
+                        <th>Mobile</th>
                         <th>Created</th>
                         <th>Created By</th>
                         <th>Updated By</th>
@@ -91,11 +87,10 @@ require_once './app/resource/layout/main/head.php'
                     <?php foreach($records as $record):?>
                     <tr>
                         <th scope="row"><?= $record['id']  ?></th>
-                        <td><?= $record['company_id']['name']  ?></td>
                         <td><?= $record['name']  ?></td>
-                        <td><?= $record['address']  ?></td>
-                        <td><?= $record['state_id']['name']  ?></td>
-                        <td><?= $record['city_id']['city']  ?></td>
+                        <td><?= $record['gst_no']  ?></td>
+                        <td><?= $record['owner_name']  ?></td>
+                        <td><?= $record['mobile']  ?></td>
                         <td>
                             <?=  DateUtility::getDate($record['created_at'], DateUtility::DATETIME_OUT_FORMAT) ?>
                         </td>

@@ -5,13 +5,21 @@ function permission_links()
     return [
         "dashboard" => "Dshbaord",
         "setting" => "Setting",
+        
         "user/summary" => "User Summary",
         "user/save" => "User Save",
         "user/delete" => "User Delete",
+        
         "role/summary" => "Role Summary",
         "role/save" => "Role Save",
         "role/delete" => "Role Delete",
+
         "career/summary" => "Career Summary",
+
+        "company/summary" => "Company Summary",
+        "company/save" => "Company Save",
+        "company/delete" => "Company Delete",
+        
         "location/summary" => "Location Summary",
         "location/save" => "Location Save",
         "location/delete" => "Location Delete",
@@ -23,5 +31,7 @@ function permission_links()
         'attendance/summary' => "Attendance Summary",
         'attendance/mark' => "Attendance Mark",
         'attendance/edit' => "Attendance Edit",
+
+        
     ];
 }
