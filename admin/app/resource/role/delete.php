@@ -7,13 +7,21 @@ $model = new App\Model\Role();
 
 if (isset($_GET['id']))
 {
-    if ($model->delete($_GET['id']))
+    try
     {
-        Session::writeFlash("success", "Role has been deleted");
+        if ($model->delete($_GET['id']))
+        {
+            Session::writeFlash("success", "Role has been deleted");
+        }
+        else
+        {
+            Session::writeFlash("fail", "Fail To delete");
+        }
+
     }
-    else
+    catch(\Exception $ex)
     {
-        Session::writeFlash("fail", "Fail To delete, Record has associated data");
+        Session::writeFlash("fail", $ex->getMessage());
     }
 }
 else

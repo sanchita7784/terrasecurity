@@ -17,7 +17,7 @@ class Role extends BaseModel
         $condition->add("role_id", $id);
         if ($userModel->findCount($condition) > 0)
         {
-            return false;
+            throw new \Exception("This record linked with users");
         }
 
         return true;

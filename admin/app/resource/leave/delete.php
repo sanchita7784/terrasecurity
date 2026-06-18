@@ -10,7 +10,7 @@ if (isset($_GET['id']))
     {
         if ($model->delete($_GET['id']))
         {
-            Session::writeFlash("success", "Company has been deleted");
+            Session::writeFlash("success", "Leave has been deleted");
         }
         else
         {

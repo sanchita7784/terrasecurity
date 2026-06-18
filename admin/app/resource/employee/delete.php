@@ -1,18 +1,26 @@
 <?php
 
-require_once './app/model/Location.php';
+require_once './app/model/Employee.php';
 
-$model = new App\Model\Location();
+$model = new App\Model\Employee();
 
 if (isset($_GET['id']))
 {
-    if ($model->delete($_GET['id']))
+    try
     {
-        Session::writeFlash("success", "Location has been deleted");
+        if ($model->delete($_GET['id']))
+        {
+            Session::writeFlash("success", "Employee has been deleted");
+        }
+        else
+        {
+            Session::writeFlash("fail", "Fail To delete");
+        }
+
     }
-    else
+    catch(\Exception $ex)
     {
-        Session::writeFlash("fail", "Fail To delete, Record has associated data");
+        Session::writeFlash("fail", $ex->getMessage());
     }
 }
 else
@@ -20,4 +28,4 @@ else
     Session::writeFlash("fail", "id not found in get");
 }
    
-redirect("location/summary");
+redirect("employee/summary");

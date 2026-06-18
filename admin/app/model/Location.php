@@ -22,7 +22,7 @@ class Location extends BaseModel
         $condition->add("location_id", $id);
         if ($userModel->findCount($condition) > 0)
         {
-            return false;
+            throw new \Exception("This record linked with users");
         }
 
         $userModel = new Attendance();
@@ -31,7 +31,7 @@ class Location extends BaseModel
         $condition->add("location_id", $id);
         if ($userModel->findCount($condition) > 0)
         {
-            return false;
+            throw new \Exception("This record linked with attendance");
         }
 
         return true;

@@ -168,6 +168,14 @@ class BaseModel
 
     public function insert($data)
     {
+        foreach($this->date_fields as $date_field => $out_format)
+        {
+            if (isset($data[$date_field]) && $data[$date_field])
+            {
+                $data[$date_field] = DateUtility::getDate($data[$date_field]);
+            }
+        }
+        
         $this->validate($data);
 
         if ($this->validationErrors)
@@ -221,6 +229,14 @@ class BaseModel
     
     public function update($data)
     {
+        foreach($this->date_fields as $date_field => $out_format)
+        {
+            if (isset($data[$date_field]) && $data[$date_field])
+            {
+                $data[$date_field] = DateUtility::getDate($data[$date_field]);
+            }
+        }
+
         $this->validate($data);
 
         if ($this->validationErrors)
@@ -297,14 +313,6 @@ class BaseModel
 
     public function beforeInsert(&$data)
     {
-        foreach($this->date_fields as $date_field => $out_format)
-        {
-            if (isset($data[$date_field]) && $data[$date_field])
-            {
-                $data[$date_field] = DateUtility::getDate($data[$date_field]);
-            }
-        }
-
         if (in_array('created_at', $this->tableFields))
         {
             $data['created_at'] = date("Y-m-d H:i:s");
@@ -321,14 +329,6 @@ class BaseModel
 
     public function beforeUpdate(&$data)
     {
-        foreach($this->date_fields as $date_field => $out_format)
-        {
-            if (isset($data[$date_field]) && $data[$date_field])
-            {
-                $data[$date_field] = DateUtility::getDate($data[$date_field]);
-            }
-        }
-
         if (in_array('updated_at', $this->tableFields))
         {
             $data['updated_at'] = date("Y-m-d H:i:s");
@@ -431,6 +431,47 @@ class BaseModel
                             {
                                 $msg = "$other_field is not find in form data";
                                 $this->validationErrors[$field][] = $msg;
+                            }
+                            break;
+
+                        case "combo_unique":
+                            if (!empty($value))
+                            {
+                                if (!isset($opt['other_fields']))
+                                {
+                                    $msg = "other_fields is not find in validation";
+                                    $this->validationErrors[$field][] = $msg;
+                                }
+
+                                $condition = Condition::init("AND")->add($field, $value);
+
+                                $other_field_name_list = [];
+                                foreach($opt['other_fields'] as $other_field)
+                                {
+                                    if (isset($data[$other_field]))
+                                    {
+                                        $other_field_name_list[] = ucwords(str_function_name_to_human_text($other_field));
+                                        $condition->add($other_field, $data[$other_field]);
+                                    }
+                                    else
+                                    {
+                                        $msg = "$other_field is not find in form data";
+                                        $this->validationErrors[$field][] = $msg;
+                                    }
+                                }
+
+                                if ($this->id)
+                                {
+                                    $condition->addCondition(Condition::init("NOT")->add("id", $this->id));
+                                }
+
+                                $count = $this->findCount($condition);
+
+                                if ($count > 0)
+                                {
+                                    $msg = ucwords(str_function_name_to_human_text($field)) . " is already exist with " . implode(", ", $other_field_name_list);
+                                    $this->validationErrors[$field][] = $msg;
+                                }
                             }
                             break;
                     }

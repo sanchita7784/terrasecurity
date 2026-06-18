@@ -19,7 +19,7 @@ class Company extends BaseModel
         $condition->add("company_id", $id);
         if ($locationModel->findCount($condition) > 0)
         {
-            return false;
+            throw new \Exception("This record linked with locations");
         }
 
         return true;

@@ -27,10 +27,10 @@ class Employee extends BaseModel
         $userModel = new Attendance();
 
         $condition = new Condition("AND");
-        $condition->add("location_id", $id);
+        $condition->add("employee_id", $id);
         if ($userModel->findCount($condition) > 0)
         {
-            return false;
+            throw new \Exception("This record linked with Attendance");
         }
 
         return true;
