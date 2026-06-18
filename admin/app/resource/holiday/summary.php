@@ -1,30 +1,18 @@
 <?php
 
-use App\Model\Leaves;
 use HardeepVicky\QueryBuilder\Condition;
 use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
 
-require_once './app/model/Leaves.php';
-require_once './app/model/Employee.php';
+require_once './app/model/Holiday.php';
 
-$employee = new App\Model\Employee();
-
-$records = $employee->find(["id", "name", "mobile"]);
-$employee_list = [];
-
-foreach($records as $record)
-{
-    $employee_list[$record['id']] = $record['name'] . " (" . $record['mobile'] . ")";
-}
-
-$model = new App\Model\Leaves();
+$model = new App\Model\Holiday();
 
 $condition = Condition::init("AND");
 
-if (isset($_GET['form_data']['employee_id']) && $_GET['form_data']['employee_id'])
+if (isset($_GET['form_data']['name']) && $_GET['form_data']['name'])
 {
-    $condition->add("employee_id", $_GET['form_data']['employee_id']);
+    $condition->add("name", $_GET['form_data']['name']);
 }
 
 $total_count = $model->findCount($condition);
@@ -47,7 +35,7 @@ $records = $model->findQuery($qs);
 
 $model->created_by($records);
 $model->updated_by($records);
-$model->dateFields($records);
+$model->holidayDetail($records);
 
 $form = new App\Form($model);
 
@@ -56,18 +44,14 @@ require_once './app/resource/layout/main/head.php'
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Leave Summary</h4>
+        <h4 class="card-title">Holiday Summary</h4>
         <p class="card-title-desc">
             <div class="d-flex justify-content-between">
                 <form style="width : 80%">
                     <input type="hidden" name="r" value="<?= $resource ?>" />
                     <div class="row">
                         <div class="col-md-4 col-xl-3">
-                            <?= $form->input("employee_id", ["class" => "form-control select2",
-                                "type" => "select",
-                                "list" => $employee_list,
-                                "empty" => true,
-                            ]); ?>
+                            <?= $form->input("name", ["class" => "form-control",]); ?>
                         </div>
                         <div class="col-md-3 col-xl-2">
                             <button type="submit" class="btn btn-primary">Search</button>
@@ -88,10 +72,7 @@ require_once './app/resource/layout/main/head.php'
                 <thead class="table-light">
                     <tr>
                         <th>#</th>                        
-                        <th>Employee</th>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Approve Or Reject</th>
+                        <th>Name</th>                        
                         <th>Created</th>
                         <th>Created By</th>
                         <th>Updated By</th>
@@ -102,23 +83,7 @@ require_once './app/resource/layout/main/head.php'
                     <?php foreach($records as $record):?>
                     <tr>
                         <th scope="row"><?= $record['id']  ?></th>
-                        <td><?= $employee_list[$record['employee_id']] ?? ""  ?></td>
-                        <td><?= $record['date']  ?></td>
-                        <td><?= Leaves::TYPE_LIST[$record['type']] ?? ""  ?></td>
-                        <td>
-                            <?php if ($record['status'] == Leaves::PENDING): ?>
-                                <a href="<?= url("leave/approve", ["id" => $record['id']]) ?>" class="btn btn-success btn-sm confirm_and_ajax" data-msg="Are you sure to approve leave, this step can't be undo">
-                                    Approve Now
-                                </a>
-                                <a href="<?= url("leave/reject", ["id" => $record['id']]) ?>" class="btn btn-danger btn-sm confirm_and_ajax" data-msg="Are you sure to reject leave, this step can't be undo">
-                                    Reject Now
-                                </a>
-                            <?php elseif ($record['status'] == Leaves::APPROVE): ?>
-                                <span class="badge bg-success">Approved</span>
-                            <?php elseif ($record['status'] == Leaves::REJECT): ?>
-                                <span class="badge bg-danger">Rejected</span>
-                            <?php endif; ?>
-                        </td>
+                        <td><?= $record['name']  ?></td>                        
                         <td>
                             <?=  DateUtility::getDate($record['created_at'], DateUtility::DATETIME_OUT_FORMAT) ?>
                         </td>
@@ -131,15 +96,43 @@ require_once './app/resource/layout/main/head.php'
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-secondary" href="<?= url("leave/save", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-secondary" href="<?= url("holiday/save", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("leave/delete", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("holiday/delete", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-trash"></i>
                             </a>
+
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info css-toggler" 
+                                data-sr-css-class-toggle-target="#record-<?= $record['id'] ?>"
+                                data-sr-css-class-toggle-class="hidden"
+                                >
+                                Details
+                            </a>
                         </td>
-                    </tr>                    
+                    </tr>    
+                    <tr id="record-<?= $record['id'] ?>" class="hidden">
+                        <td></td>
+                        <td colspan="2">
+                            <table class="table table-bordered i-data-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>                        
+                                        <th data-search="1">Date</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($record['holidayDetail'] as $i => $holidayDetail):?>
+                                        <tr>
+                                            <td><?= $i + 1 ?></td>
+                                            <td><?= $holidayDetail['date'] ?></td>                                            
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>                
                     <?php endforeach; ?>
                 </tbody>
             </table>

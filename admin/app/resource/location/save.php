@@ -61,16 +61,17 @@ require_once './app/resource/layout/main/head.php'
                     <div class="col-lg-6">
                         <form method="post">   
                             <div class="mb-3">
-                                <?= $form->label("company", ["class" => "form-label"]); ?>
+                                <?= $form->label("company", ["class" => "form-label", "required" => true]); ?>
                                 <?= $form->input("company_id", ["class" => "form-control select2", 
                                     "type" => "select",
                                     "list" => $company_list,
                                     "empty" => true,
+                                    "required" => true
                                 ]); ?>
                             </div>                        
                             <div class="mb-3">
-                                <?= $form->label("name", ["class" => "form-label"]); ?>
-                                <?= $form->input("name", ["class" => "form-control"]); ?>
+                                <?= $form->label("name", ["class" => "form-label", "required" => true]); ?>
+                                <?= $form->input("name", ["class" => "form-control", "required" => true]); ?>
                             </div>   
                             <div class="mb-3">
                                 <?= $form->label("address", ["class" => "form-label"]); ?>

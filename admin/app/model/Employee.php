@@ -16,6 +16,7 @@ class Employee extends BaseModel
         'state_id' => ['required'], 
         'city_id' => ['required'], 
         'doj' => ['required'], 
+        'salary' => ['required'], 
     ];
 
     public $date_fields = [

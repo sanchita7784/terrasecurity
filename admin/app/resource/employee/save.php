@@ -64,50 +64,58 @@ require_once './app/resource/layout/main/head.php'
                     <div class="col-lg-6">
                         <form method="post">
                             <div class="mb-3">
-                                <?= $form->label("name", ["class" => "form-label"]); ?>
-                                <?= $form->input("name", ["class" => "form-control"]); ?>
+                                <?= $form->label("name", ["class" => "form-label", "required" => true]); ?>
+                                <?= $form->input("name", ["class" => "form-control", "required" => true]); ?>
                             </div>
                             <div class="mb-3">
-                                <?= $form->label("address", ["class" => "form-label"]); ?>
-                                <?= $form->input("address", ["class" => "form-control"]); ?>
+                                <?= $form->label("address", ["class" => "form-label", "required" => true]); ?>
+                                <?= $form->input("address", ["class" => "form-control", "required" => true]); ?>
                             </div>
                             <div class="mb-3">
-                                <?= $form->label("state", ["class" => "form-label"]); ?>
+                                <?= $form->label("state", ["class" => "form-label", "required" => true]); ?>
                                 <?= $form->input("state_id", ["class" => "form-control select2",
                                     "id" => "state_id",
                                     "type" => "select",
                                     "list" => $state_list,
                                     "empty" => true,
+                                    "required" => true,
                                     "data-sr-cascade-target" =>"#city_id",
                                     "data-sr-cascade-url" => 'index.php?r=city/get_list&state_id={v}',
                                 ]); ?>
                             </div>
                             <div class="mb-3">
-                                <?= $form->label("city", ["class" => "form-label"]); ?>
+                                <?= $form->label("city", ["class" => "form-label", "required" => true]); ?>
                                 <?= $form->input("city_id", ["class" => "form-control select2",
                                     "id" => "city_id",
                                     "type" => "select",
                                     "list" => [],
                                     "empty" => true,
+                                    "required" => true
                                 ]); ?>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <?= $form->label("Date Of Joining", ["class" => "form-label"]); ?>
-                                        <?= $form->input("doj", ["class" => "form-control date-picker" , "data-date-end" => 0]); ?>
+                                        <?= $form->label("Date Of Joining", ["class" => "form-label", "required" => true]); ?>
+                                        <?= $form->input("doj", ["class" => "form-control date-picker" , 
+                                            "data-date-end" => 0, 
+                                            "required" => true
+                                        ]); ?>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <?= $form->label("salary", ["class" => "form-label"]); ?>
-                                    <?= $form->input("salary", ["class" => "form-control validate-int"]); ?>
+                                    <?= $form->label("salary", ["class" => "form-label", "required" => true]); ?>
+                                    <?= $form->input("salary", ["class" => "form-control validate-int", 
+                                        "required" => true]); ?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <?= $form->label("mobile", ["class" => "form-label"]); ?>
-                                        <?= $form->input("mobile", ["class" => "form-control validate-mobile"]); ?>
+                                        <?= $form->label("mobile", ["class" => "form-label", "required" => true]); ?>
+                                        <?= $form->input("mobile", ["class" => "form-control validate-mobile", 
+                                            "required" => true
+                                            ]); ?>
                                     </div>
                                 </div>
                             </div>

@@ -13,7 +13,10 @@ class Form
             $records = $this->model->find([], ["id" => $_GET['id']]);
             $this->model->dateFields($records);
 
-            $this->db_data = $records[0];            
+            if (isset($records[0]))
+            {
+                $this->db_data = $records[0];               
+            }
         }
 
         if (!empty($_POST['form_data']))

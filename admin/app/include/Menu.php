@@ -11,6 +11,8 @@ class Menu
         $menu[] = Company::get();
         $menu[] = Location::get();
         $menu[] = Employee::get();
+        $menu[] = Holiday::get();
+        $menu[] = Leave::get();
         $menu[] = Attendance::get();
 
         $menu[] = Career::get();  
@@ -299,6 +301,60 @@ class Company
         $links['links'][] = [
             "title" => "Add",
             "r" => "company/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+
+class Leave
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Leave",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "leave/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "leave/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+
+class Holiday
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Holiday",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "holiday/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "holiday/save",
             "icon" => "fas fa-plus-circle",
         ];
 

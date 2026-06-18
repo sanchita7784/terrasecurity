@@ -100,14 +100,14 @@ require_once './app/resource/layout/main/head.php'
                 <form style="width : 80%">
                     <input type="hidden" name="r" value="<?= $resource ?>" />
                     <div class="row">
-                        <div class="col-md-3 col-xl-2">
+                        <div class="col-md-4 col-xl-3">
                             <?= $form->input("location_id", ["class" => "form-control select2",
                                 "type" => "select",
                                 "list" => $location_list,
                                 "empty" => true,
                             ]); ?>
                         </div>
-                        <div class="col-md-3 col-xl-2">
+                        <div class="col-md-4 col-xl-3">
                             <?= $form->input("employee_id", ["class" => "form-control select2",
                                 "type" => "select",
                                 "list" => $employee_list,

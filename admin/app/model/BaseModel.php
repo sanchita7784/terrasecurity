@@ -391,7 +391,7 @@ class BaseModel
                         case "required":
                             if (empty($value))
                             {
-                                $msg = ucwords(str_function_name_to_human_text($field)) . " is required";
+                                $msg = "This field is required";
                                 $this->validationErrors[$field][] = $msg;
                             }
                             break;

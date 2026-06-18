@@ -345,7 +345,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $(document).on("click", "a.confirm_and_popup", function () {
+    $(document).on("click", "a.confirm_and_ajax", function () {
 
         var _this = $(this).parent();
         var href = $(this).attr("href");
@@ -354,7 +354,7 @@ $(document).ready(function () {
 
         confirmDialog(msg, function(){
             $.get(href, function(response){                
-                $.events.onUserSuccess(response);
+                _this.html(response);
             });
         })
 

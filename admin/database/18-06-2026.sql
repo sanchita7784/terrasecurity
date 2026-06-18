@@ -13,3 +13,7 @@ CREATE TABLE `company` (
 
 ALTER TABLE `location` ADD COLUMN `company_id` INT UNSIGNED NOT NULL AFTER `id`;
 
+ALTER TABLE `leave` RENAME TO `leaves` ;
+
+ALTER TABLE `holiday_details` RENAME TO  `holiday_detail` ;
+
