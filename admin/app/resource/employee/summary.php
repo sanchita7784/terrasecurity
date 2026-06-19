@@ -125,6 +125,10 @@ require_once './app/resource/layout/main/head.php'
                             <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("employee/delete", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-trash"></i>
                             </a>
+
+                            <a href="<?= url("employee/shift", ["employee_id" => $record['id']]) ?>">
+                               Shift
+                            </a>
                         </td>
                     </tr>                    
                     <?php endforeach; ?>

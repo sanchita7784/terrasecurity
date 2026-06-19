@@ -205,10 +205,10 @@ $(document).ready(function () {
 
     $(".ajax-load").ajaxLoad();
 
-    // $('.time-picker').timepicker({
-    //     defaultTime: ""
-    // });
-
+    $('.time-picker').timepicker({
+        defaultTime: ""
+    });
+    
     $(".i-data-table").idataTable();
 
     $(".table-export-csv").srTableCSVExport();

@@ -14,6 +14,7 @@ class Menu
         $menu[] = Holiday::get();
         $menu[] = Leave::get();
         $menu[] = Attendance::get();
+        $menu[] = Salary::get();
 
         $menu[] = Career::get();  
 
@@ -355,6 +356,32 @@ class Holiday
         $links['links'][] = [
             "title" => "Add",
             "r" => "holiday/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+class Salary
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Salary",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "salary/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "salary/save",
             "icon" => "fas fa-plus-circle",
         ];
 

@@ -26,13 +26,12 @@ $mysql = new Mysql(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
 
 $resource = $_GET['r'] ?? 'dashboard';
 
-date_default_timezone_set('UTC');
+date_default_timezone_set('Asia/kolkata');
 
 $auth = new Auth();
 
 if (!in_array($resource, $auth->defaultPageAllow))
 {
-    
     $auth->check();
 
     if (isset($_GET['r']) && !$auth->isPageAllowed())

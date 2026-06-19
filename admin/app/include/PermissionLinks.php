@@ -26,6 +26,8 @@ function permission_links()
         "employee/summary" => "Employee Summary",
         "employee/save" => "Employee Save",
         "employee/delete" => "Employee Delete",
+        "employee/shift" => "Employee Shift",
+        "employee/shift_delete" => "Employee Shift Delete",
 
         'attendance/summary' => "Attendance Summary",
         'attendance/mark' => "Attendance Mark",
@@ -40,5 +42,9 @@ function permission_links()
         "holiday/summary" => "Holiday Summary",
         "holiday/save" => "Holiday Save",
         "holiday/delete" => "Holiday Delete",
+        
+        "salary/summary" => "Salary Summary",
+        "salary/save" => "Salary Save",
+        "salary/delete" => "Salary Delete",
     ];
 }

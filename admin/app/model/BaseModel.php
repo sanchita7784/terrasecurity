@@ -42,9 +42,17 @@ class BaseModel
             $qs->setFieldList($fields);
         }
 
-        if ($conditions)
+        if ($conditions instanceof Condition)
+        {
+            $qs->setWhere($conditions);
+        }
+        else if (is_array($conditions))
         {
             $qs->setWhere(Condition::init("AND")->addList($conditions));
+        }
+        else if (is_string($conditions))
+        {
+            $qs->addRawWhere($conditions);
         }
 
         if ($order_by && $order_dir)

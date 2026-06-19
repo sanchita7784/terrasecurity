@@ -17,3 +17,13 @@ ALTER TABLE `leave` RENAME TO `leaves` ;
 
 ALTER TABLE `holiday_details` RENAME TO  `holiday_detail` ;
 
+
+CREATE TABLE `employee_shift` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `apply_date` DATE NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `created_by` INT NULL,
+  PRIMARY KEY (`id`));

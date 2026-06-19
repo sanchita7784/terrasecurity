@@ -461,9 +461,9 @@ function url_without_query_params($resource)
     return BASE_URL . "index.php?r=" . $resource;
 }
 
-function redirect($resource)
+function redirect($resource, array $query_params = [])
 {
-    header("Location:" . url($resource));
+    header("Location:" . url($resource, $query_params));
     exit;
 }
 
