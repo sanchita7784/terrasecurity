@@ -143,7 +143,7 @@ require_once './app/resource/layout/main/head.php'
                                Shift
                             </a>
 
-                            
+
                             <?php if (!$record['is_terminate']): ?>
                                 <a class="btn btn-secondary btn-sm" href="<?= url("employee/terminate", ["employee_id" => $record['id']]) ?>">
                                     Terminate
@@ -156,7 +156,7 @@ require_once './app/resource/layout/main/head.php'
                                 </a>
                             <?php endif; ?>
 
-                            <a href="javascript:void(0);" class="btn btn-sm btn-info css-toggler" 
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info css-toggler"
                                 data-sr-css-class-toggle-target="#record-<?= $record['id'] ?>"
                                 data-sr-css-class-toggle-class="hidden"
                                 >
@@ -167,10 +167,11 @@ require_once './app/resource/layout/main/head.php'
                     <tr id="record-<?= $record['id'] ?>" class="hidden">
                         <td></td>
                         <td colspan="7">
+                            <?php if (isset($record['EmployeeWorkHistory'])): ?>
                             <table class="table table-bordered i-data-table">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>#</th>                        
+                                        <th>#</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Leave Reason</th>
@@ -180,15 +181,16 @@ require_once './app/resource/layout/main/head.php'
                                     <?php foreach($record['EmployeeWorkHistory'] as $i => $work_history):?>
                                         <tr>
                                             <td><?= $i + 1 ?></td>
-                                            <td><?= $work_history['start_date'] ?></td>                                            
-                                            <td><?= $work_history['end_date'] ?></td>                                            
-                                            <td><?= $work_history['leave_reason'] ?></td>                                            
+                                            <td><?= $work_history['start_date'] ?></td>
+                                            <td><?= $work_history['end_date'] ?></td>
+                                            <td><?= $work_history['leave_reason'] ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?php endif; ?>
                         </td>
-                    </tr> 
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
