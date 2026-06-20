@@ -6,6 +6,7 @@ use HardeepVicky\QueryBuilder\Condition;
 require_once './app/model/States.php';
 require_once './app/model/City.php';
 require_once './app/model/Attendance.php';
+require_once './app/model/EmployeeWorkHistory.php';
 
 class Employee extends BaseModel
 {
@@ -20,7 +21,9 @@ class Employee extends BaseModel
     ];
 
     public $date_fields = [
-        "doj" => "d-M-Y"
+        "doj" => "d-M-Y",
+        "terminate_date" => "d-M-Y",
+        "rejoin_date" => "d-M-Y"
     ];
 
     public function beforeDelete($id)
@@ -91,4 +94,32 @@ class Employee extends BaseModel
         }
     }
 
+
+    public function EmployeeWorkHistory(&$records)
+    {
+        $relation_model = new EmployeeWorkHistory();
+
+        $id_list = array_unique(array_column($records, "id"));
+
+        if (empty($id_list))
+        {
+            return true;
+        }
+
+        $q = "SELECT * from " . $relation_model->getTable() . " where employee_id in (" . implode(",", $id_list) . ")";
+
+        $rel_records = $relation_model->mysql->select($q);
+        $relation_model->dateFields($rel_records);
+
+        foreach($records as $k => $record)
+        {
+            foreach($rel_records as $rel_record)
+            {
+                if ($record['id'] == $rel_record['employee_id'])
+                {
+                    $records[$k]['EmployeeWorkHistory'][] = $rel_record;
+                }
+            }
+        }
+    }
 }

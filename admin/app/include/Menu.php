@@ -120,6 +120,7 @@ class System
 
         $links['links'][] = self::user();
         $links['links'][] = self::role();
+        $links['links'][] = self::developer();
         // $links['links'][] = [
         //     "title" => "Setting",
         //     "r" => "setting",
@@ -176,6 +177,23 @@ class System
             "title" => "Set Permission",
             "icon" => " fas fa-list",
             "r" => "role/set_permission"
+        ];
+
+        return $links;
+    }
+
+    public static function developer()
+    {
+        $links = [
+            "title" => "Developer",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Cron Logs",
+            "icon" => "fas fa-th-list",
+            "r" => "cron/summary"
         ];
 
         return $links;

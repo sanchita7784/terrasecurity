@@ -42,6 +42,8 @@ $records = $model->findQuery($qs);
 
 $model->created_by($records);
 $model->updated_by($records);
+$model->EmployeeWorkHistory($records);
+$model->dateFields($records);
 
 
 require_once './app/resource/layout/main/head.php'
@@ -68,7 +70,7 @@ require_once './app/resource/layout/main/head.php'
                     </div>
                 </form>
                 <div>
-                    <?= pagination_links($total_pages, $page); ?> 
+                    <?= pagination_links($total_pages, $page); ?>
                 </div>
             </div>
         </p>
@@ -87,6 +89,8 @@ require_once './app/resource/layout/main/head.php'
                         <th>Mobile</th>
                         <th>Salary</th>
                         <th>Address</th>
+                        <th>D.O.J.</th>
+                        <th>Terminated / Re-join</th>
                         <th>Created</th>
                         <th>Created By</th>
                         <th>Updated By</th>
@@ -106,6 +110,15 @@ require_once './app/resource/layout/main/head.php'
                         <td><?= $record['mobile']  ?></td>
                         <td><?= $record['salary']  ?></td>
                         <td><?= $record['address']  ?></td>
+                        <td><?= $record['doj']  ?></td>
+                        <td>
+                            <?php if ($record['is_terminate']): ?>
+                                <span class="badge bg-danger">Terminated</span>
+                            <?php endif; ?>
+                            <?php if ($record['is_re_join']): ?>
+                                <span class="badge bg-info">Re-join</span>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <?=  DateUtility::getDate($record['created_at'], DateUtility::DATETIME_OUT_FORMAT) ?>
                         </td>
@@ -126,17 +139,62 @@ require_once './app/resource/layout/main/head.php'
                                 <i class="fas fa-trash"></i>
                             </a>
 
-                            <a href="<?= url("employee/shift", ["employee_id" => $record['id']]) ?>">
+                            <a class="btn btn-secondary btn-sm" href="<?= url("employee/shift", ["employee_id" => $record['id']]) ?>">
                                Shift
                             </a>
+
+                            
+                            <?php if (!$record['is_terminate']): ?>
+                                <a class="btn btn-secondary btn-sm" href="<?= url("employee/terminate", ["employee_id" => $record['id']]) ?>">
+                                    Terminate
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if ($record['is_terminate'] && !$record['is_re_join']): ?>
+                                <a class="btn btn-secondary btn-sm" href="<?= url("employee/rejoin", ["employee_id" => $record['id']]) ?>">
+                                    Re-Join
+                                </a>
+                            <?php endif; ?>
+
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info css-toggler" 
+                                data-sr-css-class-toggle-target="#record-<?= $record['id'] ?>"
+                                data-sr-css-class-toggle-class="hidden"
+                                >
+                                Details
+                            </a>
                         </td>
-                    </tr>                    
+                    </tr>
+                    <tr id="record-<?= $record['id'] ?>" class="hidden">
+                        <td></td>
+                        <td colspan="7">
+                            <table class="table table-bordered i-data-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>                        
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Leave Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($record['EmployeeWorkHistory'] as $i => $work_history):?>
+                                        <tr>
+                                            <td><?= $i + 1 ?></td>
+                                            <td><?= $work_history['start_date'] ?></td>                                            
+                                            <td><?= $work_history['end_date'] ?></td>                                            
+                                            <td><?= $work_history['leave_reason'] ?></td>                                            
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr> 
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
 
-        <?= pagination_links($total_pages, $page); ?> 
+        <?= pagination_links($total_pages, $page); ?>
     </div>
     <!-- end card body -->
 </div>

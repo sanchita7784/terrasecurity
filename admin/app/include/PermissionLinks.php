@@ -5,6 +5,7 @@ function permission_links()
     return [
         "dashboard" => "Dshbaord",
         "setting" => "Setting",
+        "cron/summary" => "Cron Log",
         "career/summary" => "Career Summary",
         
         "user/summary" => "User Summary",
@@ -28,6 +29,8 @@ function permission_links()
         "employee/delete" => "Employee Delete",
         "employee/shift" => "Employee Shift",
         "employee/shift_delete" => "Employee Shift Delete",
+        "employee/terminate" => "Employee Terminate",
+        "employee/rejoin" => "Employee Re-Join",
 
         'attendance/summary' => "Attendance Summary",
         'attendance/mark' => "Attendance Mark",
