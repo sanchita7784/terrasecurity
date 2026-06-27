@@ -4,6 +4,7 @@ namespace App;
 use App\Model\Setting;
 use Aws\Exception\AwsException;
 use Aws\Ses\SesClient;
+use PHPMailer\PHPMailer\PHPMailer;
 
 require_once './app/model/Setting.php';
 
@@ -22,7 +23,7 @@ class EmailHelper
         $this->email_from_address = $list['email_from_address'];
     }
 
-    public function send($to_email, $subject, $body)    {
+    public function send($to_email, $subject, $body, $files = [])    {
 
         $client = new SesClient([
             'version' => 'latest',
@@ -37,33 +38,41 @@ class EmailHelper
         $text_body = strip_tags($body);
         $charset = 'UTF-8';
 
+        $mail = new PHPMailer();
+        $mail->CharSet = 'UTF-8';
+
+        // Set Sender and Recipient
+        $mail->setFrom($sender_email, 'Terra Security'); // Must be verified in SES
+        $mail->addAddress($to_email);
+
+        // Content
+        $mail->Subject = $subject;
+        $mail->isHTML(true);
+        $mail->Body    = $body;
+        $mail->AltBody = $text_body;
+
+        // Add Attachments (Provide full system path and desired file display name)
+        foreach($files as $file)
+        {
+            $mail->addAttachment($file, pathinfo($file, PATHINFO_BASENAME));
+        }
+
+        // 3. Compile and Extract the Raw MIME Message Data
+        if (!$mail->preSend()) {
+            die('MIME composition failed: ' . $mail->ErrorInfo);
+        }
+        $rawMimeMessage = $mail->getSentMIMEMessage();
+
+        // 4. Send via Amazon SES sendRawEmail API
         try {
-            $result = $client->sendEmail([
-                'Destination' => [
-                    'ToAddresses' => [$to_email],
+            $result = $client->sendRawEmail([
+                'RawMessage' => [
+                    'Data' => $rawMimeMessage,
                 ],
-                'Message' => [
-                    'Body' => [
-                        'Html' => [
-                            'Charset' => $charset,
-                            'Data' => $body,
-                        ],
-                        'Text' => [
-                            'Charset' => $charset,
-                            'Data' => $text_body,
-                        ],
-                    ],
-                    'Subject' => [
-                        'Charset' => $charset,
-                        'Data' => $subject,
-                    ],
-                ],
-                'Source' => $sender_email,
             ]);
             
             return ["success" => true, "MessageId" => $result['MessageId']];
         } catch (AwsException $e) {
-
             return ["success" => false, "error" => $e->getAwsErrorMessage()];
         }
     }

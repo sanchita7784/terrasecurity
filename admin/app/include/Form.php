@@ -84,6 +84,10 @@ class Form
             case "checkbox":
                 $html = $this->checkboxField($field, $options);
                 break;
+
+            case "textarea":
+                $html = $this->textAreaField($field, $options);
+                break;
         }
 
         $html .= $this->errorHtml($field);
@@ -196,6 +200,32 @@ class Form
         }
 
         $html .= "/>";
+
+        return $html;
+    }
+
+    public function textAreaField(String $field, Array $options = [])
+    {
+        $html = '<textarea name="' . $this->getInputName($field) . '"';
+
+        if (isset($options['value']) && $options['value'])
+        {
+            $this->data[$field] = $options['value'];
+        }
+
+        foreach($options as $attr => $value)
+        {
+            $html .= " " .$attr . '="' . $value . '" ';
+        }
+
+        $html .= ">";
+
+        if (isset($this->data[$field]) && $this->data[$field])
+        {
+            $html .= $this->data[$field];
+        }
+
+        $html .= "</textarea>";
 
         return $html;
     }

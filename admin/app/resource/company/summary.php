@@ -43,7 +43,7 @@ require_once './app/resource/layout/main/head.php'
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Location</h4>
+        <h4 class="card-title">Company Summary</h4>
         <p class="card-title-desc">
             <div class="d-flex justify-content-between">
                 <form style="width : 80%">
@@ -103,11 +103,11 @@ require_once './app/resource/layout/main/head.php'
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-secondary" href="<?= url("location/save", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-secondary" href="<?= url("company/save", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("location/delete", ["id" => $record['id']]) ?>">
+                            <a class="btn btn-sm btn-danger confirm" data-msg="Are you sure to delete?" href="<?= url("company/delete", ["id" => $record['id']]) ?>">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

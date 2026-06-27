@@ -186,10 +186,7 @@ class Salary extends BaseModel
 
     public function get_salary_from_attendance($month_year, $attendance_records)
     {
-        global $mysql;
-
         $ret_data = [];
-
 
         $empModel = new Employee();
 
@@ -271,8 +268,6 @@ class Salary extends BaseModel
 
     public function shifts_from_range($from_date, $to_date, array $employee_id_list = [])
     {
-        global $mysql;
-
         $empShift = new EmployeeShift();
 
         $employee_ids = implode(",", $employee_id_list);
@@ -288,7 +283,7 @@ class Salary extends BaseModel
                 apply_date ASC 
             ";
 
-        $temp = $mysql->select($q);
+        $temp = $this->mysql->select($q);
 
         if (empty($temp))
         {

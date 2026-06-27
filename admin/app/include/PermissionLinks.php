@@ -49,5 +49,16 @@ function permission_links()
         "salary/summary" => "Salary Summary",
         "salary/save" => "Salary Save",
         "salary/delete" => "Salary Delete",
+
+        "ledger_account/summary" => "Ledger Account Summary",
+        "ledger_account/save" => "Ledger Account Save",
+        "ledger_account/delete" => "Ledger Account Delete",
+
+        "ledger_transaction/summary" => "Ledger Tranasaction Summary",
+        "ledger_transaction/save" => "Ledger Tranasaction Save",
+
+        "invoice/summary" => "Invoice Summary",
+        "invoice/save" => "Invoice Save",
+        "invoice/delete" => "Invoice Delete",
     ];
 }

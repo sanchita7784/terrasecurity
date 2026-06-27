@@ -19,7 +19,8 @@ class Auth
         "role/ajax_get_permission",
         "change_password",
         "city/get_list",
-        "attendance/emp_details"
+        "attendance/emp_details",
+        "employee/get_bank_detail_from_ifsc_code"
     ];
 
     public $allowedPermissionForAdmin = [

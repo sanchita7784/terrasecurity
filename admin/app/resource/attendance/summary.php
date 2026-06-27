@@ -51,7 +51,7 @@ $start = $end - $limit;
 
 $qs = new QuerySelect(new Table($model->getTable()));
 $qs->setWhere($condition);
-$qs->order($order_by, $order_dir);
+
 
 if (isset($_GET['export']) && $_GET['export'] == "csv")
 {
@@ -80,6 +80,7 @@ if (isset($_GET['export']) && $_GET['export'] == "csv")
     download_start($file, "application/octet-stream");
 }
 
+$qs->order($order_by, $order_dir);
 $qs->setOffset($start);
 $qs->setLimit($limit);
 

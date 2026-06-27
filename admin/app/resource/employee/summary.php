@@ -6,6 +6,7 @@ use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
 
 require_once './app/model/Employee.php';
+require_once './app/model/Company.php';
 
 $model = new App\Model\Employee();
 
@@ -16,10 +17,14 @@ if (isset($_GET['name']) && $_GET['name'])
     $condition->add("name", '%' . $_GET['name'] .'%', "like");
 }
 
-
 if (isset($_GET['mobile']) && $_GET['mobile'])
 {
     $condition->add("mobile", '%' . $_GET['mobile'] .'%', "like");
+}
+
+if (isset($_GET['form_data']['company_id']) && $_GET['form_data']['company_id'])
+{
+    $condition->add("company_id", $_GET['form_data']['company_id']);
 }
 
 $total_count = $model->findCount($condition);
@@ -42,9 +47,15 @@ $records = $model->findQuery($qs);
 
 $model->created_by($records);
 $model->updated_by($records);
+$model->company_id($records);
 $model->EmployeeWorkHistory($records);
 $model->dateFields($records);
 
+$company = new App\Model\Company();
+
+$company_list = $company->findListCache("id", "name");
+
+$form = new App\Form($model);
 
 require_once './app/resource/layout/main/head.php'
 ?>
@@ -62,6 +73,13 @@ require_once './app/resource/layout/main/head.php'
                         </div>
                         <div class="col-md-3 col-xl-2">
                             <input class="form-control" placeholder="Mobile" name="mobile" value="<?=  $_GET['mobile'] ?? "" ?>"/>
+                        </div>
+                        <div class="col-md-4 col-xl-3">
+                            <?= $form->input("company_id", ["class" => "form-control select2",
+                                "type" => "select",
+                                "list" => $company_list,
+                                "empty" => true,
+                            ]); ?>
                         </div>
                         <div class="col-md-3 col-xl-2">
                             <button type="submit" class="btn btn-primary">Search</button>
@@ -87,6 +105,7 @@ require_once './app/resource/layout/main/head.php'
                         </th>
                         <th>Photo</th>
                         <th>Mobile</th>
+                        <th>Company</th>
                         <th>Salary</th>
                         <th>Address</th>
                         <th>D.O.J.</th>
@@ -108,6 +127,7 @@ require_once './app/resource/layout/main/head.php'
                             <?php endif; ?>
                         </td>
                         <td><?= $record['mobile']  ?></td>
+                        <td><?= $record['company_id']['name'] ?? ""  ?></td>
                         <td><?= $record['salary']  ?></td>
                         <td><?= $record['address']  ?></td>
                         <td><?= $record['doj']  ?></td>
@@ -126,7 +146,7 @@ require_once './app/resource/layout/main/head.php'
                             <?= $record['created_by']['name'] . "-" . $record['created_by']['id'] ?? "" ?>
                         </td>
                         <td>
-                            <?php if (isset($record['updated_by'])): ?>
+                            <?php if (isset($record['updated_by']['name'])): ?>
                                 <?= $record['updated_by']['name'] . "-" . $record['updated_by']['id'] ?? "" ?>
                             <?php endif; ?>
                         </td>
@@ -168,6 +188,7 @@ require_once './app/resource/layout/main/head.php'
                         <td></td>
                         <td colspan="7">
                             <?php if (isset($record['EmployeeWorkHistory'])): ?>
+                            <h3>Work History</h3>
                             <table class="table table-bordered i-data-table">
                                 <thead class="table-light">
                                     <tr>

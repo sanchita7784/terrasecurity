@@ -17,7 +17,8 @@
         "netresearch/jsonmapper": "^5.0",
         "hardeep-vicky/php-query-builder": "^1.1",
         "aws/aws-sdk-php": "^3.374",
-        "phpmailer/phpmailer": "^7.1"
+        "phpmailer/phpmailer": "^7.1",
+        "knplabs/knp-snappy": "^1.7"
     },
     "repositories": [
       {

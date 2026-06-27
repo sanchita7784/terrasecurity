@@ -1,10 +1,12 @@
 <?php
 
 use App\Form;
+use App\Model\Employee;
 
 require_once './app/model/BaseModel.php';
 require_once './app/model/Employee.php';
 require_once './app/model/States.php';
+require_once './app/model/Company.php';
 require_once './app/include/Form.php';
 
 $model = new App\Model\Employee();
@@ -14,6 +16,11 @@ $form = new Form($model);
 $state = new App\Model\States();
 
 $state_list = $state->findListCache("id", "name");
+
+$company = new App\Model\Company();
+
+$company_list = $company->findListCache("id", "name");
+
 
 if (isset($_POST['form_data']))
 {
@@ -93,6 +100,22 @@ require_once './app/resource/layout/main/head.php'
                                     "required" => true
                                 ]); ?>
                             </div>
+                            <div class="mb-3">
+                                <?= $form->label("company", ["class" => "form-label"]); ?>
+                                <?= $form->input("company_id", ["class" => "form-control select2",
+                                    "type" => "select",
+                                    "list" => $company_list,
+                                    "empty" => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-3">
+                                <?= $form->label("type", ["class" => "form-label"]); ?>
+                                <?= $form->input("type", ["class" => "form-control select2",
+                                    "type" => "select",
+                                    "list" => Employee::TYPE_LIST,
+                                    "empty" => true,
+                                ]); ?>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
@@ -118,20 +141,60 @@ require_once './app/resource/layout/main/head.php'
                                             ]); ?>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2 mb-2">
-                                <div class="col-sm-8">
-                                    <?= $form->input("image", ["id" => "image", "class" => "form-control", "type" => "hidden"]); ?>
-                                    <span id="modal_crop_opener" class="btn btn-secondary">Choose Photo</span>
+                                <div class="col-lg-6">
+                                    <?= $form->label("salary As Per Aggreement", ["class" => "form-label", "required" => true]); ?>
+                                    <?= $form->input("agreement_salary", ["class" => "form-control validate-int", 
+                                        "required" => true]); ?>
                                 </div>
-                                <div class="col-sm-4">
-                                    <?php if(isset($form->db_data['image']) && $form->db_data['image']): ?>
-                                    <a id="profile_photo_block" class="fancybox" href="{{ FileUtility::get($form->db_data['image']) }}">
-                                        <img class="img-thumbnail rounded-circle avatar-xl" src="{{ FileUtility::get($form->db_data['image']) }}" />
-                                    </a>
-                                    <?php endif; ?>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-sm-6" style="padding-top: 30px;">
+                                            <?= $form->input("image", ["id" => "image", "class" => "form-control", "type" => "hidden"]); ?>
+                                            <span id="modal_crop_opener" class="btn btn-secondary">Choose Photo</span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <?php if(isset($form->db_data['image']) && $form->db_data['image']): ?>
+                                            <a id="profile_photo_block" class="fancybox" href="<?= $form->db_data['image'] ?>">
+                                                <img class="img-thumbnail rounded-circle avatar-xl" src="<?= $form->db_data['image'] ?> " />
+                                            </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <?= $form->label("salary_payment_mode", ["class" => "form-label"]); ?>
+                                <?= $form->input("salary_payment_mode", ["class" => "form-control select2",
+                                    "id" => "salary_payment_mode",
+                                    "type" => "select",
+                                    "list" => Employee::PAYMENT_MODE_LIST,
+                                    "empty" => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-3 bank_transfer">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <?= $form->label("IFSC Code", ["class" => "form-label"]); ?>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <?= $form->input("ifsc_code", ["class" => "form-control", 
+                                                    'id' => 'ifsc_code',
+                                                    ]); ?>
+                                                <div class="help-block"></div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span id="get_bank_detail_from_ifsc_code" class="btn btn-info btn-sm">Get Bank Details</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <?= $form->label("bank_account_no", ["class" => "form-label"]); ?>
+                                        <?= $form->input("bank_account_no", ["class" => "form-control", 
+                                        ]); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-primary w-md">Submit</button>
                             </div>
@@ -309,6 +372,90 @@ require_once './app/resource/layout/main/head.php'
             });
         });
 
+        $("#get_bank_detail_from_ifsc_code").click(function()
+        {
+            var code = $("#ifsc_code").val();
+            
+            if (!code)
+            {
+                bootbox.alert("Enter Bank IFSC Code");
+                return;
+            }
+            
+            $.get("index.php?r=employee/get_bank_detail_from_ifsc_code&ifsc_code=" + code, function(response) 
+            {
+                try
+                {
+                    response = JSON.parse(response);
+                }
+                catch(e)
+                {
+                    bootbox.alert(response);
+                    return;
+                }
+                
+                if (response["status"] == "1")
+                {
+                    var data = response["data"];
+                    console.log(data);
+                    
+                    var html = "";
+                    
+                    html += "<table class='table table-striped table-bordered order-column'>";
+                        html += "<tr>";
+                            html += "<th>Bank</th>";
+                            html += "<td>";
+                                html += data["BANK"];
+                            html += "</td>";
+                        html += "</tr>";
+                        
+                        html += "<tr>";
+                            html += "<th>Bank Code</th>";
+                            html += "<td>";
+                                html += data["BANKCODE"];
+                            html += "</td>";
+                        html += "</tr>";
+                        
+                        html += "<tr>";
+                            html += "<th>Branch</th>";
+                            html += "<td>";
+                                html += data["BRANCH"];
+                            html += "</td>";
+                        html += "</tr>";
+                        
+                        html += "<tr>";
+                            html += "<th>Address</th>";
+                            html += "<td>";
+                                html += data["ADDRESS"];
+                            html += "</td>";
+                        html += "</tr>";
+                    html += "</table>";
+                    
+                    $("#ifsc_code").parent().find(".help-block").html(html);
+                }
+                else
+                {
+                    bootbox.alert(response["msg"]);
+                    return;
+                }
+            });
+        });
+        
+        $("#salary_payment_mode").change(function () 
+        {
+            var v = $(this).val();
+            
+            if (v == '<?= Employee::PAYMENT_MODE_BANK_TRANSFER ?>')
+            {
+                $(".bank_transfer").find("input, select").attr("required", true).removeAttr("disabled");
+                $(".bank_transfer").show();
+            }
+            else
+            {
+                $(".bank_transfer").find("input, select").attr("disabled", true).removeAttr("required");
+                $(".bank_transfer").hide();
+            }
+        }).trigger("change");
     });
 </script>
 <?php require_once './app/resource/layout/main/foot.php' ?>

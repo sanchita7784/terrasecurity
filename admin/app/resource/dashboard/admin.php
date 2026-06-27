@@ -12,7 +12,7 @@ $company = new Company();
 $company_count = $company->findCount(null);
 
 $employee = new Employee();
-$employee_count = $employee->findCount(null);
+$employee_count = $employee->findCount(Condition::init("AND")->add("is_terminate", 0));
 
 $attendance = new Attendance();
 $present_emp_count = $attendance->findCount(Condition::init("AND")->add("in_time", date("Y-m-d"), ">"));

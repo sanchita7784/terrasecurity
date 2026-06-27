@@ -1,5 +1,6 @@
 <?php
 
+use csv\CsvUtility;
 use HardeepVicky\QueryBuilder\Condition;
 use HardeepVicky\QueryBuilder\QuerySelect;
 use HardeepVicky\QueryBuilder\Table;
@@ -12,37 +13,121 @@ $model = new App\Model\Salary();
 if (isset($_POST['action']) && $_POST['action'] == "pay_now")
 {
     $count = 0;
-    foreach($_POST['form_data']['ids'] as $id => $on)
+    if (isset($_POST['form_data']['ids']))
     {
-        if ($on)
+        foreach($_POST['form_data']['ids'] as $id => $on)
         {
-            $model->id = $id;
-            if ($model->update(["is_paid" => 1]))
+            if ($on)
             {
-                $count++;
+                $model->id = $id;
+                if ($model->update(["is_paid" => 1]))
+                {
+                    $count++;
+                }
             }
         }
+
+        Session::writeFlash("success", "$count Salary has been Paid.");
+    }
+    else
+    {
+        Session::writeFlash("fail", "Please Select at least one checkbox");
     }
 
-    Session::writeFlash("success", "$count Salary has been Paid.");
+    
 }
 else if (isset($_POST['action']) && $_POST['action'] == "unpay_now")
 {
     $count = 0;
 
-    foreach($_POST['form_data']['ids'] as $id => $on)
+    if (isset($_POST['form_data']['ids']))
     {
-        if ($on)
+        foreach($_POST['form_data']['ids'] as $id => $on)
         {
-            $model->id = $id;
-            if ($model->update(["is_paid" => 0]))
+            if ($on)
             {
-                $count++;
+                $model->id = $id;
+                if ($model->update(["is_paid" => 0]))
+                {
+                    $count++;
+                }
             }
         }
+        Session::writeFlash("success", "$count Salary has been Un-Paid.");
+    }
+    else
+    {
+        Session::writeFlash("fail", "Please Select at least one checkbox");
     }
 
-    Session::writeFlash("success", "$count Salary has been Un-Paid.");
+    
+}
+else if (isset($_POST['action']) && $_POST['action'] == "export_for_bank_transfer")
+{
+    if (isset($_GET['form_data']['month_year']) && $_GET['form_data']['month_year'])
+    {
+        $where = "S.is_paid = 0 AND E.salary_payment_mode = 3";
+
+        $month = DateUtility::getDate("01-" . $_GET['form_data']['month_year'], "m");
+        $year = DateUtility::getDate("01-" . $_GET['form_data']['month_year'], "Y");
+
+        $where .= " AND S.month=$month AND S.year=$year";
+
+        if (isset($_GET['form_data']['employee_id']) && $_GET['form_data']['employee_id'])
+        {
+            $where .= " AND S.employee_id = " . $_GET['form_data']['employee_id'];
+        }
+
+        $q = "
+            SELECT
+                E.id,
+                E.name,
+                E.mobile,
+                E.ifsc_code,
+                E.bank_account_no,
+                S.month, 
+                S.year,
+                SUM(S.cal_salary) AS total_salary
+            FROM
+                salary S
+                INNER JOIN employee E ON E.id = S.employee_id
+            WHERE
+                $where
+            GROUP BY
+                S.employee_id, S.month, S.year
+            ORDER BY
+                S.id ASC
+        ";
+
+        $records = $mysql->select($q);
+
+        $csv_records = [];
+        foreach($records as $record)
+        {
+            $csv_records[] = [
+                "month" =>  $record['month'],
+                "year" =>  $record['year'],
+                "Employee" =>  $record['name'],
+                "mobile" =>  $record['mobile'],
+                "IFSC Code" => "`" . $record['ifsc_code'],
+                "Bank Account No." => "`" . $record['bank_account_no'],                
+                "Salary" =>  $record['total_salary'],
+            ];
+        }
+
+        $path = "storage/files/temp/";
+        FileUtility::createFolder($path);
+        $file = $path . "salary_" . date(DateUtility::DATETIME_OUT_FORMAT) . ".csv";
+        
+        $csvUtility = new CsvUtility($file);
+        $csvUtility->write($csv_records);
+
+        download_start($file, "application/octet-stream");
+    }
+    else
+    {
+        Session::writeFlash("fail", "Please Search with Month-Year");
+    }
 }
 
 $employee = new App\Model\Employee();
@@ -132,6 +217,7 @@ require_once './app/resource/layout/main/head.php'
         <form method="post">
             <button type="submit" class="btn btn-secondary" name="action" value="pay_now">Pay Now</button>
             <button type="submit" class="btn btn-secondary" name="action" value="unpay_now">UnPay Now</button>
+            <button type="submit" class="btn btn-secondary" name="action" value="export_for_bank_transfer">Export For Bank Transfer</button>
             Showing Page <?= $page ?> of <?= $total_pages ?>, Start : <?= $start + 1 ?>, End : <?=  $end ?>
             <br/><br/>
         

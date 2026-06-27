@@ -73,7 +73,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Mastropay Payment Gateway</h1>
+            <h1>Terra Security</h1>
         </div>
         <div class="content">
             <h2>Password Reset Request</h2>
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="footer">
-            &copy; <?= date("Y")  ?> Mastropay Payment Gateway. All rights reserved.<br>
+            &copy; <?= date("Y")  ?> Terra Security. All rights reserved.<br>
             Global Business Park (3rd Floor) Office No.312 ,Jalandhar Bypass,National Highway 1, Sarop Nagar, Ludhiana, Punjab 141008, India
         </div>
     </div>

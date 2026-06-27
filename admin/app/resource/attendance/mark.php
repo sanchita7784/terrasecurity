@@ -15,7 +15,7 @@ $location_list = $location->findListCache("id", "name");
 
 $employee = new App\Model\Employee();
 
-$records = $employee->find(["id", "name", "mobile"]);
+$records = $employee->find(["id", "name", "mobile"], ["is_terminate" => 0]);
 $employee_list = [];
 
 foreach($records as $record)

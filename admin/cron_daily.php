@@ -18,7 +18,9 @@ require_once './app/include/FileUtility.php';
 require_once './app/include/Mysql.php';
 require_once './app/include/Cache.php';
 require_once './app/include/config.php';
+require_once './app/include/Auth.php';
 require_once './app/model/BaseModel.php';
+require_once './app/model/User.php';
 require_once './app/model/CronLog.php';
 require_once './app/model/Employee.php';
 
@@ -32,7 +34,7 @@ $cronLogModel->insert([
 
 $employee = new Employee();
 
-$condition = Condition::init("AND")->add("terminate_date", date("Y-m-d"))->add("is_terminate", 0);
+$condition = Condition::init("AND")->add("terminate_date", date("Y-m-d"), "<=")->add("is_terminate", 0);
 $records = $employee->find([], $condition);
 
 foreach($records as $record)

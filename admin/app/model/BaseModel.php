@@ -225,7 +225,7 @@ class BaseModel
 
             $this->id = $records[0]['last_id'];
 
-            $this->afterSave();
+            $this->afterSave($data);
 
             return true;
         }
@@ -280,13 +280,13 @@ class BaseModel
         // d($q); exit;
         $this->mysql->query($q);
 
-        $this->afterSave();
+        $this->afterSave($data);
 
         return true;
         
     }
 
-    public function afterSave()
+    public function afterSave($data)
     {
         $cache = new Cache(str_class_name_without_namespace(static::class));
         $cache->flush();
@@ -377,6 +377,13 @@ class BaseModel
         $this->tableFields = array_column($records, 'COLUMN_NAME');
 
         return $this->tableFields;
+    }
+
+    public function nextId()
+    {
+        $records = $this->mysql->select("SHOW TABLE STATUS LIKE '" . $this->table ."'");
+
+        return $records[0]['Auto_increment'];
     }
 
     public function validate($data)

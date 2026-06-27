@@ -15,6 +15,9 @@ class Menu
         $menu[] = Leave::get();
         $menu[] = Attendance::get();
         $menu[] = Salary::get();
+        $menu[] = Invoice::get();
+        $menu[] = LedgerAccount::get();
+        $menu[] = LedgerTransaction::get();
 
         $menu[] = Career::get();  
 
@@ -121,11 +124,11 @@ class System
         $links['links'][] = self::user();
         $links['links'][] = self::role();
         $links['links'][] = self::developer();
-        // $links['links'][] = [
-        //     "title" => "Setting",
-        //     "r" => "setting",
-        //     "icon" => "fas fa-key"
-        // ];
+        $links['links'][] = [
+            "title" => "Setting",
+            "r" => "setting",
+            "icon" => "fas fa-key"
+        ];
 
         return $links;
     }
@@ -248,6 +251,58 @@ class Location
 }
 
 
+class LedgerAccount
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Ledger Account",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "ledger_account/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "ledger_account/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+
+class LedgerTransaction
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Ledger Transaction",
+            "icon" => "fas fa-briefcase",
+            "links" => []
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "ledger_transaction/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "ledger_transaction/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
 class Employee
 {
     public static function get()
@@ -400,6 +455,32 @@ class Salary
         $links['links'][] = [
             "title" => "Add",
             "r" => "salary/save",
+            "icon" => "fas fa-plus-circle",
+        ];
+
+        return $links;
+    }
+}
+
+class Invoice
+{
+    public static function get()
+    {
+        $links = [
+            "title" => "Company Invoice",
+            "icon" => "fas fa-briefcase",
+            "links" => [] 
+        ];
+
+        $links['links'][] = [
+            "title" => "Summary",
+            "r" => "invoice/summary",
+            "icon" => "fas fa-th-list",
+        ];
+
+        $links['links'][] = [
+            "title" => "Add",
+            "r" => "invoice/save",
             "icon" => "fas fa-plus-circle",
         ];
 

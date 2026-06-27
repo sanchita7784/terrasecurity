@@ -28,6 +28,8 @@ if (isset($_POST['form_data']))
 {
     // d($_POST['form_data']); exit;
 
+    $insert_count = $update_count = $fail_count = 0;
+
     foreach($_POST['form_data'] as $emp_id => $shift_data)
     {
         foreach($shift_data as $shift_hours => $record)
@@ -44,25 +46,36 @@ if (isset($_POST['form_data']))
                 $model->id = $db_record[0]['id'];
                 if ($model->update($record))
                 {
-                    Session::writeFlash("success", "Salary has been updated.");
+                    $update_count++;
                 }
                 else
                 {
-                    Session::writeFlash("fail", "Fail To Update.");
+                    $fail_count++;
                 }
             }
             else
             {
                 if ($model->insert($record))
                 {
-                    Session::writeFlash("success", "Salary has been created.");
+                    $insert_count++;
+                    
                 }
                 else
                 {
-                    Session::writeFlash("fail", "Fail To Create.");
+                    $fail_count++;
                 }
             }
         }
+    }
+
+    if ($insert_count || $update_count)
+    {
+        Session::writeFlash("success", "Records Insert : $insert_count, Records Update : $update_count");
+    }
+
+    if ($fail_count > 0)
+    {
+        Session::writeFlash("fail", "Fail To save : $fail_count");
     }
 }
 
@@ -154,6 +167,8 @@ require_once './app/resource/layout/main/head.php'
                                             <b>Holidays : </b> <?=  $record['holidays'] ?>
                                             <br/>
                                             <b>Leaves : </b> <?=  $record['leaves'] ?>
+                                            <br/>
+                                            <b>Declare Salary : </b> <?= $record['employee']['salary'] ?>
                                             <br/>
                                             <b>One Day Salary : </b> <?=  $record['one_day_salary'] ?>
                                             <br/>
